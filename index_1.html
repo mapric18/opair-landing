@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>opair — by invitation only</title>
+<meta name="description" content="opair is an invite-only babysitter network. request an invite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0e1210;
+    --bg-card: #161c19;
+    --line: rgba(242,237,228,0.10);
+    --line-strong: rgba(242,237,228,0.22);
+    --ink: #f2ede4;
+    --ink-dim: rgba(242,237,228,0.55);
+    --sage: #9dbb9f;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    text-transform:lowercase;
+  }
+
+  .center{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 20px;
+  }
+
+  .card{
+    width:100%;
+    max-width:400px;
+  }
+
+  .mark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:22px;
+    text-align:center;
+    margin-bottom:14px;
+    letter-spacing:0.01em;
+  }
+
+  .tagline{
+    text-align:center;
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:17px;
+    line-height:1.5;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+
+  .desc{
+    text-align:center;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+    margin-bottom:36px;
+  }
+
+  .tag{
+    text-align:center;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--ink-dim);
+    margin-bottom:6px;
+  }
+
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .row2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  label{
+    font-size:12px;
+    color:var(--ink-dim);
+    margin-bottom:6px;
+    display:block;
+  }
+
+  input[type=text], input[type=tel]{
+    width:100%;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    padding:12px 14px;
+    border-radius:9px;
+    outline:none;
+    transition:border-color .15s ease;
+    text-transform:lowercase;
+  }
+  input::placeholder{ color:rgba(242,237,228,0.28); }
+  input:focus{ border-color:var(--line-strong); }
+
+  .field{ display:flex; flex-direction:column; }
+
+  .role-toggle{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:2px;
+  }
+  .role-toggle input{ display:none; }
+  .role-toggle label{
+    margin:0;
+    text-align:center;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-dim);
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:11px 10px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .role-toggle input:checked + label{
+    border-color:var(--sage);
+    color:var(--ink);
+    background:rgba(157,187,159,0.12);
+  }
+
+  button[type=submit], #showFormBtn{
+    margin-top:10px;
+    width:100%;
+    background:var(--ink);
+    color:var(--bg);
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    padding:14px;
+    border-radius:9px;
+    cursor:pointer;
+    transition:opacity .15s ease;
+    text-transform:lowercase;
+  }
+  button[type=submit]:hover, #showFormBtn:hover{ opacity:0.85; }
+
+  .fine{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--ink-dim);
+    margin-top:18px;
+    line-height:1.6;
+  }
+  .fine button{
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    text-decoration:underline;
+    font-size:11.5px;
+    cursor:pointer;
+    padding:0;
+    font-family:inherit;
+    text-transform:lowercase;
+  }
+
+  .error{
+    font-size:11.5px;
+    color:#d98b8b;
+    margin-top:-6px;
+    display:none;
+  }
+
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:rgba(242,237,228,0.3);
+    padding:20px;
+  }
+
+  /* confirmation screen */
+  .confirm{
+    display:none;
+    text-align:center;
+  }
+  .confirm .mark-small{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:20px;
+    margin-bottom:22px;
+  }
+  .confirm h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:24px;
+    margin:0 0 14px;
+  }
+  .confirm p{
+    font-size:14px;
+    color:var(--ink-dim);
+    line-height:1.7;
+    max-width:34ch;
+    margin:0 auto;
+  }
+
+  /* privacy dialog */
+  dialog{
+    max-width:520px;
+    width:92%;
+    background:var(--bg-card);
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px;
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--ink-dim);
+    text-transform:lowercase;
+  }
+  dialog::backdrop{ background:rgba(0,0,0,0.6); }
+  dialog h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:20px;
+    color:var(--ink);
+    margin:0 0 16px;
+  }
+  dialog h3{
+    font-size:12.5px;
+    letter-spacing:0.05em;
+    color:var(--ink);
+    margin:20px 0 6px;
+  }
+  dialog .close-btn{
+    margin-top:24px;
+    width:100%;
+    background:transparent;
+    border:1px solid var(--line-strong);
+    color:var(--ink);
+    padding:11px;
+    border-radius:9px;
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    cursor:pointer;
+    text-transform:lowercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="center">
+  <div class="card" id="landingCard">
+    <div class="mark">opair</div>
+    <div class="tagline">the babysitter network built on trust, not strangers.</div>
+    <div class="desc">opair is an exclusive, network-based app that connects families seeking childcare with the caregivers who provide it — but only within your immediate and extended circles. skip the scroll of strangers' profiles.<br><br>rely on the people you already trust instead.<br><br>to keep opair safe and trustworthy, we're launching one market at a time. want in? give us a bit more info.</div>
+    <button type="button" id="showFormBtn">request an invite</button>
+  </div>
+
+  <div class="card" id="formCard" style="display:none;">
+    <div class="mark">opair</div>
+    <div class="tagline">tell us a bit about yourself.</div>
+
+    <form id="inviteForm">
+      <div class="row2">
+        <div class="field">
+          <label for="fname">first name</label>
+          <input type="text" id="fname" required>
+        </div>
+        <div class="field">
+          <label for="lname">last name</label>
+          <input type="text" id="lname" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="phone">phone number</label>
+        <input type="tel" id="phone" placeholder="(555) 555-5555" required>
+        <span class="error" id="phoneError">enter a valid 10-digit us phone number.</span>
+      </div>
+
+      <div class="field">
+        <label for="zip">zip code</label>
+        <input type="text" id="zip" placeholder="40502" inputmode="numeric" maxlength="5" required>
+        <span class="error" id="zipError">enter a valid 5-digit zip code.</span>
+      </div>
+
+      <div class="field">
+        <label>i am a</label>
+        <div class="role-toggle">
+          <input type="radio" name="role" id="roleParent" value="parent" required>
+          <label for="roleParent">parent</label>
+          <input type="radio" name="role" id="roleSitter" value="babysitter">
+          <label for="roleSitter">babysitter</label>
+        </div>
+      </div>
+
+      <button type="submit">request an invite</button>
+    </form>
+
+    <div class="fine">
+      by requesting an invite, you agree to our <button type="button" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button>.
+    </div>
+  </div>
+
+  <div class="card confirm" id="confirmCard">
+    <div class="mark-small">opair</div>
+    <h2>you're on the list.</h2>
+    <p>we review every request by hand. if it's a fit, we'll text you at the number you gave us.</p>
+  </div>
+</div>
+
+<footer>© 2026 opair · lexington, ky</footer>
+
+<dialog id="privacyDialog">
+  <h2>privacy policy</h2>
+  <p>this policy explains what opair collects when you request an invite and how that information is used.</p>
+
+  <h3>information we collect</h3>
+  <p>when you submit this form, we collect your first name, last name, phone number, zip code, and whether you're joining as a parent or a babysitter.</p>
+
+  <h3>how we use it</h3>
+  <p>we use this information to review invite requests, contact you about your request, and, if approved, to set up your opair account. we do not sell your information to third parties.</p>
+
+  <h3>how we store it</h3>
+  <p>information is stored securely and retained only as long as needed to process your request or, if you join, to operate your account.</p>
+
+  <h3>your choices</h3>
+  <p>you can ask us to delete your information at any time by contacting us directly.</p>
+
+  <h3>contact</h3>
+  <p>questions about this policy can be sent to meredith.price@me.com.</p>
+
+  <button class="close-btn" onclick="document.getElementById('privacyDialog').close()">close</button>
+</dialog>
+
+<script>
+  document.getElementById('showFormBtn').addEventListener('click', function(){
+    document.getElementById('landingCard').style.display = 'none';
+    document.getElementById('formCard').style.display = 'block';
+  });
+
+  const form = document.getElementById('inviteForm');
+  const phoneInput = document.getElementById('phone');
+  const zipInput = document.getElementById('zip');
+
+  // ---- SUBMISSION METHOD ----
+  // Placeholder: replace with your real email, or swap in a Formspree endpoint
+  // (https://formspree.io/f/your-id) for guaranteed delivery without relying
+  // on the visitor having an email app configured.
+  const NOTIFY_EMAIL = 'meredith.price@me.com';
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const digits = phoneInput.value.replace(/\D/g, '');
+    const phoneValid = digits.length === 10;
+    document.getElementById('phoneError').style.display = phoneValid ? 'none' : 'block';
+
+    const zipValid = /^[0-9]{5}$/.test(zipInput.value.trim());
+    document.getElementById('zipError').style.display = zipValid ? 'none' : 'block';
+
+    if(!phoneValid || !zipValid){ return; }
+
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const role = document.querySelector('input[name=role]:checked')?.value || '';
+    const formattedPhone = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+
+    const subject = encodeURIComponent('opair invite request');
+    const body = encodeURIComponent(
+      `first name: ${fname}\nlast name: ${lname}\nphone: ${formattedPhone}\nzip code: ${zipInput.value.trim()}\nrole: ${role}`
+    );
+
+    // Opens the visitor's email client pre-filled — swap for Formspree fetch() call for guaranteed delivery
+    window.location.href = `mailto:${NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
+
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('confirmCard').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
