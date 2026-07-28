@@ -44,7 +44,12 @@
 
   .card{
     width:100%;
+    max-width:800px;
+  }
+
+  .inner{
     max-width:400px;
+    margin:0 auto;
   }
 
   .mark{
@@ -282,64 +287,70 @@
 
 <div class="center">
   <div class="card" id="landingCard">
-    <div class="mark">opair</div>
-    <div class="tagline">the babysitter network built on trust, not strangers.</div>
-    <div class="desc">opair is an exclusive, network-based app that connects families seeking childcare with caregivers who provide it — but only within your established network. skip scrolling strangers' profiles. quit texting around to find a babysitter. hire someone in a pinch, without the guesswork.<br><br>personal referrals at the speed of an app.<br><br>to keep opair safe and legitimate, we're only launching one market at a time. want in? give us a bit more info.</div>
-    <button type="button" id="showFormBtn">request an invite</button>
+    <div class="inner">
+      <div class="mark">opair</div>
+      <div class="tagline">the babysitter network built on trust</div>
+      <div class="desc">opair is an exclusive, network-based app that connects families seeking childcare with caregivers who provide it — but only within your established network. skip scrolling strangers' profiles. quit texting around to find a babysitter. hire someone in a pinch, without the guesswork.<br><br>personal referrals at the speed of an app.<br><br>to keep opair safe and legitimate, we're only launching one market at a time. want in? give us a bit more info.</div>
+      <button type="button" id="showFormBtn">request an invite</button>
+    </div>
   </div>
 
   <div class="card" id="formCard" style="display:none;">
-    <div class="mark">opair</div>
-    <div class="tagline">tell us a bit about yourself.</div>
+    <div class="inner">
+      <div class="mark">opair</div>
+      <div class="tagline">tell us a bit about yourself.</div>
 
-    <form id="inviteForm">
-      <div class="row2">
+      <form id="inviteForm">
+        <div class="row2">
+          <div class="field">
+            <label for="fname">first name</label>
+            <input type="text" id="fname" required>
+          </div>
+          <div class="field">
+            <label for="lname">last name</label>
+            <input type="text" id="lname" required>
+          </div>
+        </div>
+
         <div class="field">
-          <label for="fname">first name</label>
-          <input type="text" id="fname" required>
+          <label for="phone">phone number</label>
+          <input type="tel" id="phone" placeholder="(555) 555-5555" required>
+          <span class="error" id="phoneError">enter a valid 10-digit us phone number.</span>
         </div>
+
         <div class="field">
-          <label for="lname">last name</label>
-          <input type="text" id="lname" required>
+          <label for="zip">zip code</label>
+          <input type="text" id="zip" placeholder="40502" inputmode="numeric" maxlength="5" required>
+          <span class="error" id="zipError">enter a valid 5-digit zip code.</span>
         </div>
-      </div>
 
-      <div class="field">
-        <label for="phone">phone number</label>
-        <input type="tel" id="phone" placeholder="(555) 555-5555" required>
-        <span class="error" id="phoneError">enter a valid 10-digit us phone number.</span>
-      </div>
-
-      <div class="field">
-        <label for="zip">zip code</label>
-        <input type="text" id="zip" placeholder="40502" inputmode="numeric" maxlength="5" required>
-        <span class="error" id="zipError">enter a valid 5-digit zip code.</span>
-      </div>
-
-      <div class="field">
-        <label>i am a</label>
-        <div class="role-toggle">
-          <input type="radio" name="role" id="roleParent" value="parent" required>
-          <label for="roleParent">parent</label>
-          <input type="radio" name="role" id="roleSitter" value="babysitter">
-          <label for="roleSitter">babysitter</label>
+        <div class="field">
+          <label>i am a</label>
+          <div class="role-toggle">
+            <input type="radio" name="role" id="roleParent" value="parent" required>
+            <label for="roleParent">parent</label>
+            <input type="radio" name="role" id="roleSitter" value="babysitter">
+            <label for="roleSitter">babysitter</label>
+          </div>
         </div>
+
+        <div class="email-notice">clicking below will open your email app with your info pre-filled — just hit send.</div>
+
+        <button type="submit">submit via email</button>
+      </form>
+
+      <div class="fine">
+        by requesting an invite, you agree to our <button type="button" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button>.
       </div>
-
-      <div class="email-notice">clicking below will open your email app with your info pre-filled — just hit send.</div>
-
-      <button type="submit">submit via email</button>
-    </form>
-
-    <div class="fine">
-      by requesting an invite, you agree to our <button type="button" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button>.
     </div>
   </div>
 
   <div class="card confirm" id="confirmCard">
-    <div class="mark-small">opair</div>
-    <h2>you're on the list.</h2>
-    <p>we review every request by hand. if it's a fit, we'll text you at the number you gave us.</p>
+    <div class="inner">
+      <div class="mark-small">opair</div>
+      <h2>you're on the list.</h2>
+      <p>we review every request by hand. if it's a fit, we'll text you at the number you gave us.</p>
+    </div>
   </div>
 </div>
 
