@@ -146,6 +146,19 @@
     background:rgba(157,187,159,0.12);
   }
 
+  .email-notice{
+    text-align:center;
+    font-size:14px;
+    font-weight:500;
+    color:var(--ink);
+    background:rgba(157,187,159,0.12);
+    border:1px solid rgba(157,187,159,0.3);
+    border-radius:9px;
+    padding:12px 14px;
+    line-height:1.5;
+    margin-top:6px;
+  }
+
   button[type=submit], #showFormBtn{
     margin-top:10px;
     width:100%;
@@ -270,8 +283,8 @@
 <div class="center">
   <div class="card" id="landingCard">
     <div class="mark">opair</div>
-    <div class="tagline">the babysitter network built on trust</div>
-    <div class="desc">opair is an exclusive, network-based app that connects families seeking childcare with caregivers who provide it — but only within your established network. skip scrolling strangers' profiles. quit texting around to find a babysitter. hire a reliable babysitter in a pinch.<br><br>rely on the people you already trust<br><br>to keep opair safe and legitimate, we're only launching one market at a time. want in? give us a bit more info.</div>
+    <div class="tagline">the babysitter network built on trust, not strangers.</div>
+    <div class="desc">opair is an exclusive, network-based app that connects families seeking childcare with caregivers who provide it — but only within your established network. skip scrolling strangers' profiles. quit texting around to find a babysitter. hire someone in a pinch, without the guesswork.<br><br>personal referrals at the speed of an app.<br><br>to keep opair safe and legitimate, we're only launching one market at a time. want in? give us a bit more info.</div>
     <button type="button" id="showFormBtn">request an invite</button>
   </div>
 
@@ -313,7 +326,9 @@
         </div>
       </div>
 
-      <button type="submit">request an invite</button>
+      <div class="email-notice">clicking below will open your email app with your info pre-filled — just hit send.</div>
+
+      <button type="submit">submit via email</button>
     </form>
 
     <div class="fine">
