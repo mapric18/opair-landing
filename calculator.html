@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>opair network calculator</title>
+<style>
+  :root{
+    --bg: #1d2428;
+    --card: #262d34;
+    --purple: #534AB7;
+    --purple-light: #8C7FE8;
+    --teal: #3DA69C;
+    --sage: #A2C5AC;
+    --pink: #E37096;
+    --coral: #ee8b60;
+    --text: #F2F4F5;
+    --muted: #A7B0B8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    padding: 40px 16px;
+    min-height:100vh;
+  }
+  .wrap{
+    width:100%;
+    max-width: 480px;
+  }
+  .eyebrow{
+    color: var(--sage);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    margin-bottom: 10px;
+  }
+  h1{
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .sub{
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .toggle{
+    display:flex;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 32px;
+    border: 1px solid #3a4148;
+  }
+  .toggle button{
+    flex:1;
+    background: transparent;
+    border:none;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 10px 0;
+    border-radius: 7px;
+    cursor:pointer;
+    font-family: inherit;
+  }
+  .toggle button.active{
+    background: var(--purple-light);
+    color: #14181b;
+    font-weight: 700;
+  }
+  .toggle-sub{
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  .group-label{
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    color: var(--sage);
+    text-transform: lowercase;
+    margin: 40px 0 18px;
+    font-weight: 700;
+  }
+  .group-label:first-of-type{ margin-top: 0; }
+  .field{
+    margin-bottom: 22px;
+  }
+  .field label{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .field label span.val{
+    color: var(--purple-light);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  input[type=range]{
+    width:100%;
+    -webkit-appearance:none;
+    height:4px;
+    border-radius: 2px;
+    background: #3a4148;
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background: var(--purple-light);
+    cursor:pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--purple-light);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background: var(--purple-light);
+    cursor:pointer;
+    border: 3px solid var(--bg);
+  }
+  .hint{
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .result{
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-top: 8px;
+    border: 1px solid #3a4148;
+  }
+  .result .label{
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .result .big{
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--sage);
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .result .caption{
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .breakdown{
+    display:flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 18px;
+    border-top: 1px solid #3a4148;
+  }
+  .breakdown .row{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .breakdown .row .t{
+    font-size: 13px;
+    color: var(--text);
+  }
+  .breakdown .row .n{
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .breakdown .row:nth-child(1) .n{ color: var(--sage); }
+  .breakdown .row:nth-child(2) .n{ color: var(--purple-light); }
+  .breakdown .row:nth-child(3) .n{ color: var(--coral); }
+  .breakdown .row:nth-child(4) .n{ color: var(--teal); }
+  .foot{
+    margin-top: 40px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align:center;
+  }
+  .foot b{ color: var(--pink); }
+  .hidden{ display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">opair network calculator</div>
+  <h1>see how far your circles can reach</h1>
+  <div class="sub">personal referrals, a few taps away</div>
+
+  <div class="toggle">
+    <button id="btnQuick" class="active">quick view</button>
+    <button id="btnDetailed">detailed view</button>
+  </div>
+
+  <div class="toggle-sub">move the sliders to match your life</div>
+
+  <div class="group-label">your inner circle</div>
+
+  <div class="field">
+    <label>babysitters <span class="val" id="innerSittersVal">2</span></label>
+    <input type="range" id="innerSitters" min="0" max="10" value="2">
+    <div class="hint">babysitters you know and trust with your children</div>
+  </div>
+
+  <div class="field">
+    <label>parents <span class="val" id="innerParentsVal">6</span></label>
+    <input type="range" id="innerParents" min="0" max="20" value="6">
+    <div class="hint">parents that you have full trust in them and their recommendations</div>
+  </div>
+
+  <div id="outerGroup" class="hidden">
+    <div class="group-label">your outer circle</div>
+
+    <div class="field">
+      <label>babysitters <span class="val" id="outerSittersVal">2</span></label>
+      <input type="range" id="outerSitters" min="0" max="15" value="2">
+      <div class="hint">sitters you know, but less closely</div>
+    </div>
+
+    <div class="field">
+      <label>parents <span class="val" id="outerParentsVal">12</span></label>
+      <input type="range" id="outerParents" min="0" max="30" value="12">
+      <div class="hint">the wider parent network around you</div>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="label">estimated unique sitters in your reach</div>
+    <div class="big" id="totalOut">0</div>
+    <div class="caption">trusted, referral-based, and one invite away</div>
+    <div class="breakdown">
+      <div class="row">
+        <div class="t">your favorite/inner circle babysitters</div>
+        <div class="n" id="p1p2Out">0</div>
+      </div>
+      <div class="row">
+        <div class="t">through your inner circle parents</div>
+        <div class="n" id="p3Out">0</div>
+      </div>
+      <div class="row">
+        <div class="t">through your inner circle babysitters, plus your own outer circle babysitters</div>
+        <div class="n" id="p4Out">0</div>
+      </div>
+      <div class="row">
+        <div class="t">through your wider network</div>
+        <div class="n" id="p5Out">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot" id="footText"></div>
+</div>
+
+<script>
+  const btnDetailed = document.getElementById('btnDetailed');
+  const btnQuick = document.getElementById('btnQuick');
+  const outerGroup = document.getElementById('outerGroup');
+
+  const innerSitters = document.getElementById('innerSitters');
+  const innerParents = document.getElementById('innerParents');
+  const outerSitters = document.getElementById('outerSitters');
+  const outerParents = document.getElementById('outerParents');
+
+  const innerSittersVal = document.getElementById('innerSittersVal');
+  const innerParentsVal = document.getElementById('innerParentsVal');
+  const outerSittersVal = document.getElementById('outerSittersVal');
+  const outerParentsVal = document.getElementById('outerParentsVal');
+
+  const totalOut = document.getElementById('totalOut');
+  const p1p2Out = document.getElementById('p1p2Out');
+  const p3Out = document.getElementById('p3Out');
+  const p4Out = document.getElementById('p4Out');
+  const p5Out = document.getElementById('p5Out');
+  const footText = document.getElementById('footText');
+
+  // assumption constants — adjust here if the real averages differ
+  const INNER_PARENT_INNER_SITTERS = 2;   // P3: each inner-circle parent's own inner-circle babysitters
+  const INNER_SITTER_INNER_SITTERS = 3;   // P4: each of your inner-circle babysitters' own inner-circle babysitters
+  const OUTER_PARENT_INNER_SITTERS = 2;   // P5a: each outer-circle parent's own inner-circle babysitters
+  const INNER_PARENT_OUTER_SITTERS = 2;   // P5b: each inner-circle parent's own outer-circle babysitters
+
+  // quick-view-only assumptions (used when outer circle sliders are hidden)
+  const QUICK_OWN_OUTER_SITTERS = 2;          // assumed outer-circle babysitters of your own
+  const QUICK_OUTER_PARENTS_PER_INNER = 2;    // assumed ratio: outer-circle parents per inner-circle parent
+
+  // crossover discounts — % of each tier assumed to be sitters not already counted
+  const UNIQUE_P3 = 0.90;
+  const UNIQUE_P4 = 0.75;
+  const UNIQUE_P5 = 0.55;
+
+  let mode = 'quick';
+  let lastTotal = 0;
+
+  function animateNumber(el, from, to) {
+    const start = performance.now();
+    const dur = 350;
+    function step(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(from + (to - from) * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function setMode(newMode) {
+    mode = newMode;
+    const isDetailed = mode === 'detailed';
+    btnDetailed.classList.toggle('active', isDetailed);
+    btnQuick.classList.toggle('active', !isDetailed);
+    outerGroup.classList.toggle('hidden', !isDetailed);
+    update();
+  }
+
+  function update() {
+    const iSit = parseInt(innerSitters.value, 10);
+    const iPar = parseInt(innerParents.value, 10);
+
+    let oSit, oPar;
+    if (mode === 'detailed') {
+      oSit = parseInt(outerSitters.value, 10);
+      oPar = parseInt(outerParents.value, 10);
+    } else {
+      oSit = QUICK_OWN_OUTER_SITTERS;
+      oPar = iPar * QUICK_OUTER_PARENTS_PER_INNER;
+    }
+
+    const p1p2 = iSit;                                                          // P1 + P2
+    const p3raw = iPar * INNER_PARENT_INNER_SITTERS;                            // P3
+    const p4raw = (iSit * INNER_SITTER_INNER_SITTERS) + oSit;                   // P4
+    const p5raw = (oPar * OUTER_PARENT_INNER_SITTERS) + (iPar * INNER_PARENT_OUTER_SITTERS); // P5
+
+    const p3 = Math.round(p3raw * UNIQUE_P3);
+    const p4 = Math.round(p4raw * UNIQUE_P4);
+    const p5 = Math.round(p5raw * UNIQUE_P5);
+    const total = p1p2 + p3 + p4 + p5;
+
+    innerSittersVal.textContent = iSit;
+    innerParentsVal.textContent = iPar;
+    if (mode === 'detailed') {
+      outerSittersVal.textContent = oSit;
+      outerParentsVal.textContent = oPar;
+    }
+
+    p1p2Out.textContent = p1p2;
+    p3Out.textContent = p3;
+    p4Out.textContent = p4;
+    p5Out.textContent = p5;
+
+    footText.innerHTML = mode === 'detailed'
+      ? `calculations assume each parent brings <b>2</b> inner circle babysitters, and each of your inner circle babysitters brings <b>3</b> of their own inner circle babysitters. to account for potential babysitter overlap, we assume about <b>90%</b> of sitters through inner circle parents, <b>75%</b> through your babysitters' circles, and <b>55%</b> through your wider network aren't already counted elsewhere.`
+      : `calculations assume each parent brings <b>2</b> inner circle babysitters, each of your inner circle babysitters brings <b>3</b> of their own inner circle babysitters, that you have <b>2</b> outer circle babysitters, and your outer circle has about <b>2x</b> as many parents as your inner circle. to account for potential babysitter overlap, we assume about <b>90%</b> of sitters through inner circle parents, <b>75%</b> through your babysitters' circles, and <b>55%</b> through your wider network aren't already counted elsewhere.`;
+
+    animateNumber(totalOut, lastTotal, total);
+    lastTotal = total;
+  }
+
+  btnDetailed.addEventListener('click', () => setMode('detailed'));
+  btnQuick.addEventListener('click', () => setMode('quick'));
+  innerSitters.addEventListener('input', update);
+  innerParents.addEventListener('input', update);
+  outerSitters.addEventListener('input', update);
+  outerParents.addEventListener('input', update);
+
+  setMode('quick');
+</script>
+</body>
+</html>
