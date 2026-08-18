@@ -4,90 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>opair network calculator</title>
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #1d2428;
-    --card: #262d34;
-    --purple: #534AB7;
-    --purple-light: #8C7FE8;
-    --teal: #3DA69C;
-    --sage: #A2C5AC;
-    --pink: #E37096;
-    --coral: #ee8b60;
-    --text: #F2F4F5;
-    --muted: #A7B0B8;
+    --bg: #0e1210;
+    --bg-card: #161c19;
+    --line: rgba(242,237,228,0.10);
+    --line-strong: rgba(242,237,228,0.22);
+    --ink: #f2ede4;
+    --ink-dim: rgba(242,237,228,0.55);
+    --sage: #9dbb9f;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
     background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
     display:flex;
     justify-content:center;
-    padding: 40px 16px;
+    padding: 48px 20px;
     min-height:100vh;
+    text-transform: lowercase;
   }
   .wrap{
     width:100%;
     max-width: 480px;
   }
   .eyebrow{
-    color: var(--sage);
-    font-size: 13px;
+    color: var(--ink-dim);
+    font-size: 12px;
     letter-spacing: 0.08em;
-    text-transform: lowercase;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   h1{
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 1.25;
-    margin-bottom: 8px;
-    color: var(--text);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    color: var(--ink);
   }
   .sub{
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 24px;
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .sub:last-of-type{
+    margin-bottom: 28px;
   }
   .toggle{
     display:flex;
-    background: var(--card);
-    border-radius: 10px;
+    background: var(--bg-card);
+    border-radius: 9px;
     padding: 4px;
     margin-bottom: 32px;
-    border: 1px solid #3a4148;
+    border: 1px solid var(--line);
   }
   .toggle button{
     flex:1;
     background: transparent;
     border:none;
-    color: var(--muted);
+    color: var(--ink-dim);
     font-size: 13px;
     padding: 10px 0;
     border-radius: 7px;
     cursor:pointer;
     font-family: inherit;
+    text-transform: lowercase;
+    transition: all .15s ease;
   }
   .toggle button.active{
-    background: var(--purple-light);
-    color: #14181b;
-    font-weight: 700;
+    background: rgba(157,187,159,0.12);
+    border: 1px solid var(--sage);
+    color: var(--ink);
+    font-weight: 500;
   }
   .toggle-sub{
     font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 24px;
+    color: var(--ink-dim);
+    margin-bottom: 28px;
     text-align: left;
   }
   .group-label{
-    font-size: 16px;
-    letter-spacing: 0.02em;
-    color: var(--sage);
-    text-transform: lowercase;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
     margin: 40px 0 18px;
-    font-weight: 700;
   }
   .group-label:first-of-type{ margin-top: 0; }
   .field{
@@ -98,11 +106,11 @@
     justify-content: space-between;
     align-items: baseline;
     font-size: 14px;
-    color: var(--text);
+    color: var(--ink);
     margin-bottom: 10px;
   }
   .field label span.val{
-    color: var(--purple-light);
+    color: var(--sage);
     font-weight: 700;
     font-size: 18px;
   }
@@ -111,7 +119,7 @@
     -webkit-appearance:none;
     height:4px;
     border-radius: 2px;
-    background: #3a4148;
+    background: var(--line-strong);
     outline:none;
   }
   input[type=range]::-webkit-slider-thumb{
@@ -119,56 +127,52 @@
     width:20px;
     height:20px;
     border-radius:50%;
-    background: var(--purple-light);
+    background: var(--sage);
     cursor:pointer;
     border: 3px solid var(--bg);
-    box-shadow: 0 0 0 1px var(--purple-light);
+    box-shadow: 0 0 0 1px var(--sage);
   }
   input[type=range]::-moz-range-thumb{
     width:20px;
     height:20px;
     border-radius:50%;
-    background: var(--purple-light);
+    background: var(--sage);
     cursor:pointer;
     border: 3px solid var(--bg);
   }
   .hint{
     font-size: 12px;
-    color: var(--muted);
+    color: var(--ink-dim);
     margin-top: 6px;
     line-height: 1.4;
   }
   .result{
-    background: var(--card);
-    border-radius: 16px;
+    background: var(--bg-card);
+    border-radius: 14px;
     padding: 28px 24px;
     margin-top: 8px;
-    border: 1px solid #3a4148;
+    border: 1px solid var(--line);
   }
   .result .label{
     font-size: 13px;
-    color: var(--muted);
+    color: var(--ink-dim);
     margin-bottom: 6px;
   }
   .result .big{
-    font-size: 52px;
-    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 500;
     color: var(--sage);
     line-height: 1;
-    margin-bottom: 4px;
-    font-variant-numeric: tabular-nums;
-  }
-  .result .caption{
-    font-size: 14px;
-    color: var(--muted);
     margin-bottom: 20px;
+    font-variant-numeric: tabular-nums;
   }
   .breakdown{
     display:flex;
     flex-direction: column;
     gap: 14px;
     padding-top: 18px;
-    border-top: 1px solid #3a4148;
+    border-top: 1px solid var(--line);
   }
   .breakdown .row{
     display:flex;
@@ -177,26 +181,23 @@
   }
   .breakdown .row .t{
     font-size: 13px;
-    color: var(--text);
+    color: var(--ink-dim);
   }
   .breakdown .row .n{
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
+    color: var(--sage);
     flex-shrink: 0;
     margin-left: 12px;
   }
-  .breakdown .row:nth-child(1) .n{ color: var(--sage); }
-  .breakdown .row:nth-child(2) .n{ color: var(--purple-light); }
-  .breakdown .row:nth-child(3) .n{ color: var(--coral); }
-  .breakdown .row:nth-child(4) .n{ color: var(--teal); }
   .foot{
     margin-top: 40px;
     font-size: 12.5px;
-    color: var(--muted);
+    color: var(--ink-dim);
     line-height: 1.6;
     text-align:center;
   }
-  .foot b{ color: var(--pink); }
+  .foot b{ color: var(--sage); }
   .hidden{ display:none; }
 </style>
 </head>
@@ -204,7 +205,8 @@
 <div class="wrap">
   <div class="eyebrow">opair network calculator</div>
   <h1>see how far your circles can reach</h1>
-  <div class="sub">personal referrals, a few taps away</div>
+  <div class="sub">it's word of mouth, at the speed of an app</div>
+  <div class="sub">your own network is your best resource — the people you already trust are the fastest way to find childcare. this shows exactly how far that reach goes, based on how much trust you have in each connection: whether they're in your inner circle or your outer circle.</div>
 
   <div class="toggle">
     <button id="btnQuick" class="active">quick view</button>
@@ -222,9 +224,9 @@
   </div>
 
   <div class="field">
-    <label>parents <span class="val" id="innerParentsVal">6</span></label>
+    <label>parent friends <span class="val" id="innerParentsVal">6</span></label>
     <input type="range" id="innerParents" min="0" max="20" value="6">
-    <div class="hint">parents that you have full trust in them and their recommendations</div>
+    <div class="hint">other parents who you have full trust in them and their recommendations</div>
   </div>
 
   <div id="outerGroup" class="hidden">
@@ -237,7 +239,7 @@
     </div>
 
     <div class="field">
-      <label>parents <span class="val" id="outerParentsVal">12</span></label>
+      <label>parent friends <span class="val" id="outerParentsVal">12</span></label>
       <input type="range" id="outerParents" min="0" max="30" value="12">
       <div class="hint">the wider parent network around you</div>
     </div>
@@ -246,7 +248,6 @@
   <div class="result">
     <div class="label">estimated unique sitters in your reach</div>
     <div class="big" id="totalOut">0</div>
-    <div class="caption">trusted, referral-based, and one invite away</div>
     <div class="breakdown">
       <div class="row">
         <div class="t">your favorite/inner circle babysitters</div>
