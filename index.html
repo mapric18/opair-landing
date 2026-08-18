@@ -49,7 +49,7 @@
   }
 
   .inner{
-    max-width:460px;
+    max-width:400px;
     margin:0 auto;
   }
 
@@ -78,21 +78,8 @@
     font-size:13.5px;
     line-height:1.7;
     color:var(--ink-dim);
-    margin-bottom:16px;
+    margin-bottom:36px;
   }
-
-  .desc .highlight{
-    color:var(--sage);
-    font-weight:600;
-  }
-
-  .calc-link-inline{
-    color:var(--sage);
-    text-decoration:underline;
-    font-weight:600;
-    font-size:15px;
-  }
-  .calc-link-inline:hover{ color:var(--ink); }
 
   .tag{
     text-align:center;
@@ -101,6 +88,19 @@
     color:var(--ink-dim);
     margin-bottom:6px;
   }
+
+  .back-btn{
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    cursor:pointer;
+    padding:0;
+    margin-bottom:28px;
+    text-transform:lowercase;
+  }
+  .back-btn:hover{ color:var(--ink); }
 
   form{
     display:flex;
@@ -167,7 +167,7 @@
 
   .email-notice{
     text-align:center;
-    font-size:12.5px;
+    font-size:14px;
     font-weight:500;
     color:var(--ink);
     background:rgba(157,187,159,0.12);
@@ -194,24 +194,18 @@
     text-transform:lowercase;
   }
   button[type=submit]:hover, #showFormBtn:hover{ opacity:0.85; }
-  button[type=submit]:disabled{ opacity:0.5; cursor:not-allowed; }
 
-  .back-btn{
-    background:none;
-    border:none;
-    color:var(--ink-dim);
-    font-family:'Inter', sans-serif;
-    font-size:13px;
-    cursor:pointer;
-    padding:0;
-    margin-bottom:24px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    text-transform:lowercase;
-    transition:color .15s ease;
+  .calc-link-block{
+    text-align: center;
+    margin-bottom: 36px;
   }
-  .back-btn:hover{ color:var(--ink); }
+
+  .calc-link-inline{
+    color:var(--sage);
+    text-decoration:underline;
+    font-weight:600;
+  }
+  .calc-link-inline:hover{ color:var(--ink); }
 
   .fine{
     text-align:center;
@@ -245,6 +239,18 @@
     color:rgba(242,237,228,0.3);
     padding:20px;
   }
+  .footer-link{
+    background:none;
+    border:none;
+    color:rgba(242,237,228,0.3);
+    text-decoration:underline;
+    font-size:11px;
+    cursor:pointer;
+    padding:0;
+    font-family:inherit;
+    text-transform:lowercase;
+  }
+  .footer-link:hover{ color:rgba(242,237,228,0.55); }
 
   /* confirmation screen */
   .confirm{
@@ -322,14 +328,16 @@
     <div class="inner">
       <div class="mark">opair</div>
       <div class="tagline">the babysitter network built on trust</div>
-      <div class="desc">opair is an invite-only app that connects your family with babysitters recommended by people you already know — for bedtime, rides to practice, last-minute plans, and everything in between<br><br>no scrolling through strangers' profiles<br>no texting sitter after sitter<br>no scrambling when plans change<br><br>it's word of mouth, at the speed of an app<br><br><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a><br><br>we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</div>
+      <div class="desc">opair is an invite-only app that connects your family with babysitters recommended by people you already know — for bedtime, rides to practice, last-minute plans, and everything in between<br><br>no scrolling through strangers' profiles<br>no texting sitter after sitter<br>no scrambling when plans change<br><br>it's word of mouth, at the speed of an app</div>
+      <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a></div>
+      <div class="desc">we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</div>
       <button type="button" id="showFormBtn">request an invitation</button>
     </div>
   </div>
 
   <div class="card" id="formCard" style="display:none;">
     <div class="inner">
-      <button type="button" class="back-btn" id="backBtn">← back</button>
+      <button type="button" id="backBtn" class="back-btn">← back</button>
       <div class="mark">opair</div>
       <div class="tagline">tell us a bit about yourself</div>
 
@@ -369,9 +377,7 @@
 
         <div class="email-notice">clicking below submits your request — if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
 
-        <span class="error" id="submitError">something went wrong submitting your request — please try again.</span>
-
-        <button type="submit" id="submitBtn">submit</button>
+        <button type="submit">submit</button>
       </form>
 
       <div class="fine">
@@ -389,7 +395,7 @@
   </div>
 </div>
 
-<footer>© 2026 opair · lexington, ky</footer>
+<footer>© 2026 opair · lexington, ky · <button type="button" class="footer-link" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button></footer>
 
 <dialog id="privacyDialog">
   <h2>privacy policy</h2>
@@ -408,7 +414,7 @@
   <p>you can ask us to delete your information at any time by contacting us directly.</p>
 
   <h3>contact</h3>
-  <p>questions about this policy can be sent to meredith.price@me.com.</p>
+  <p>questions about this policy can be sent to opairhelp@gmail.com.</p>
 
   <button class="close-btn" onclick="document.getElementById('privacyDialog').close()">close</button>
 </dialog>
@@ -427,15 +433,12 @@
   const form = document.getElementById('inviteForm');
   const phoneInput = document.getElementById('phone');
   const zipInput = document.getElementById('zip');
-  const submitBtn = document.getElementById('submitBtn');
-  const submitError = document.getElementById('submitError');
 
+  // ---- SUBMISSION METHOD ----
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgawpvyp';
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-
-    submitError.style.display = 'none';
 
     const digits = phoneInput.value.replace(/\D/g, '');
     const phoneValid = digits.length === 10;
@@ -451,35 +454,34 @@
     const role = document.querySelector('input[name=role]:checked')?.value || '';
     const formattedPhone = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
 
+    const submitBtn = form.querySelector('button[type=submit]');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'submitting...';
+    submitBtn.textContent = 'sending...';
 
     fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      headers: { 'Accept': 'application/json' },
+      body: new URLSearchParams({
         first_name: fname,
         last_name: lname,
         phone: formattedPhone,
         zip_code: zipInput.value.trim(),
         role: role,
-        _subject: 'new opair invite request'
+        _subject: 'opair invite request'
       })
     })
     .then(response => {
-      if(response.ok){
+      if (response.ok) {
         document.getElementById('formCard').style.display = 'none';
         document.getElementById('confirmCard').style.display = 'block';
       } else {
-        submitError.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'submit';
+        throw new Error('submission failed');
       }
     })
     .catch(() => {
-      submitError.style.display = 'block';
       submitBtn.disabled = false;
-      submitBtn.textContent = 'submit';
+      submitBtn.textContent = 'submit request';
+      alert('something went wrong sending your request — please try again.');
     });
   });
 </script>
