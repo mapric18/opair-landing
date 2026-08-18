@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>opair — by invitation only</title>
 <meta name="description" content="opair is an invite-only babysitter network. request an invite.">
+<link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -48,7 +49,7 @@
   }
 
   .inner{
-    max-width:400px;
+    max-width:460px;
     margin:0 auto;
   }
 
@@ -77,7 +78,7 @@
     font-size:13.5px;
     line-height:1.7;
     color:var(--ink-dim);
-    margin-bottom:36px;
+    margin-bottom:16px;
   }
 
   .desc .highlight{
@@ -89,6 +90,7 @@
     color:var(--sage);
     text-decoration:underline;
     font-weight:600;
+    font-size:15px;
   }
   .calc-link-inline:hover{ color:var(--ink); }
 
@@ -165,7 +167,7 @@
 
   .email-notice{
     text-align:center;
-    font-size:14px;
+    font-size:12.5px;
     font-weight:500;
     color:var(--ink);
     background:rgba(157,187,159,0.12);
@@ -192,6 +194,24 @@
     text-transform:lowercase;
   }
   button[type=submit]:hover, #showFormBtn:hover{ opacity:0.85; }
+  button[type=submit]:disabled{ opacity:0.5; cursor:not-allowed; }
+
+  .back-btn{
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    cursor:pointer;
+    padding:0;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    text-transform:lowercase;
+    transition:color .15s ease;
+  }
+  .back-btn:hover{ color:var(--ink); }
 
   .fine{
     text-align:center;
@@ -302,25 +322,26 @@
     <div class="inner">
       <div class="mark">opair</div>
       <div class="tagline">the babysitter network built on trust</div>
-      <div class="desc">opair is an invite-only app that connects your family with childcare — <span class="highlight">only within the network you already trust</span>. no scrolling strangers' profiles. no group-texting five people to find one sitter. no stressing out when you need to get your kid to soccer practice. book someone you'd actually keep your kids with, even in a pinch.<br><br>personal referrals, a few taps away.<br><br><a href="calculator.html" class="calc-link-inline">see how far your circle reaches →</a><br><br>we're rolling out one city at a time to keep opair safe and legit. want in?</div>
-      <button type="button" id="showFormBtn">request an invite</button>
+      <div class="desc">opair is an invite-only app that connects your family with babysitters recommended by people you already know — for bedtime, rides to practice, last-minute plans, and everything in between<br><br>no scrolling through strangers' profiles<br>no texting sitter after sitter<br>no scrambling when plans change<br><br>it's word of mouth, at the speed of an app<br><br><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a><br><br>we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</div>
+      <button type="button" id="showFormBtn">request an invitation</button>
     </div>
   </div>
 
   <div class="card" id="formCard" style="display:none;">
     <div class="inner">
+      <button type="button" class="back-btn" id="backBtn">← back</button>
       <div class="mark">opair</div>
-      <div class="tagline">tell us a bit about yourself.</div>
+      <div class="tagline">tell us a bit about yourself</div>
 
       <form id="inviteForm">
         <div class="row2">
           <div class="field">
             <label for="fname">first name</label>
-            <input type="text" id="fname" required>
+            <input type="text" id="fname" placeholder="jane" required>
           </div>
           <div class="field">
             <label for="lname">last name</label>
-            <input type="text" id="lname" required>
+            <input type="text" id="lname" placeholder="doe" required>
           </div>
         </div>
 
@@ -346,9 +367,11 @@
           </div>
         </div>
 
-        <div class="email-notice">clicking below will open your email app with your info pre-filled — just hit send.</div>
+        <div class="email-notice">clicking below submits your request — if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
 
-        <button type="submit">submit via email</button>
+        <span class="error" id="submitError">something went wrong submitting your request — please try again.</span>
+
+        <button type="submit" id="submitBtn">submit</button>
       </form>
 
       <div class="fine">
@@ -396,18 +419,23 @@
     document.getElementById('formCard').style.display = 'block';
   });
 
+  document.getElementById('backBtn').addEventListener('click', function(){
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('landingCard').style.display = 'block';
+  });
+
   const form = document.getElementById('inviteForm');
   const phoneInput = document.getElementById('phone');
   const zipInput = document.getElementById('zip');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitError = document.getElementById('submitError');
 
-  // ---- SUBMISSION METHOD ----
-  // Placeholder: replace with your real email, or swap in a Formspree endpoint
-  // (https://formspree.io/f/your-id) for guaranteed delivery without relying
-  // on the visitor having an email app configured.
-  const NOTIFY_EMAIL = 'meredith.price@me.com';
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgawpvyp';
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
+
+    submitError.style.display = 'none';
 
     const digits = phoneInput.value.replace(/\D/g, '');
     const phoneValid = digits.length === 10;
@@ -423,16 +451,36 @@
     const role = document.querySelector('input[name=role]:checked')?.value || '';
     const formattedPhone = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
 
-    const subject = encodeURIComponent('opair invite request');
-    const body = encodeURIComponent(
-      `first name: ${fname}\nlast name: ${lname}\nphone: ${formattedPhone}\nzip code: ${zipInput.value.trim()}\nrole: ${role}`
-    );
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'submitting...';
 
-    // Opens the visitor's email client pre-filled — swap for Formspree fetch() call for guaranteed delivery
-    window.location.href = `mailto:${NOTIFY_EMAIL}?subject=${subject}&body=${body}`;
-
-    document.getElementById('formCard').style.display = 'none';
-    document.getElementById('confirmCard').style.display = 'block';
+    fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        first_name: fname,
+        last_name: lname,
+        phone: formattedPhone,
+        zip_code: zipInput.value.trim(),
+        role: role,
+        _subject: 'new opair invite request'
+      })
+    })
+    .then(response => {
+      if(response.ok){
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('confirmCard').style.display = 'block';
+      } else {
+        submitError.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'submit';
+      }
+    })
+    .catch(() => {
+      submitError.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'submit';
+    });
   });
 </script>
 
