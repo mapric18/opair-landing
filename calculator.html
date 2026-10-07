@@ -233,13 +233,13 @@
 <body>
 <div class="wrap">
   <div class="top">
-    <a href="index.html" class="back-btn">‚Üê go back</a>
+    <a href="index.html" class="back-btn">&larr; go back</a>
     <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip)"/></svg>opair</a>
   </div>
   <div class="eyebrow">opair network calculator</div>
   <h1>see how far your circles can reach</h1>
   <div class="sub"><em>it's word of mouth, at the speed of an app</em></div>
-  <div class="sub">your own network is your best resource ‚Äî the people you already trust are the fastest way to find childcare. this shows exactly how far that reach goes, based on how much trust you have in each connection: whether they're in your inner circle or your outer circle.</div>
+  <div class="sub">your own network is your best resource &mdash; the people you already trust are the fastest way to find childcare. this shows exactly how far that reach goes, based on how much trust you have in each connection: whether they're in your inner circle or your outer circle.</div>
 
   <div class="toggle">
     <button id="btnQuick" class="active">quick view</button>
@@ -326,7 +326,7 @@
   const p5Out = document.getElementById('p5Out');
   const footText = document.getElementById('footText');
 
-  // assumption constants ‚Äî adjust here if the real averages differ
+  // assumption constants \u2014 adjust here if the real averages differ
   const INNER_PARENT_INNER_SITTERS = 2;   // P3: each inner-circle parent's own inner-circle babysitters
   const INNER_SITTER_INNER_SITTERS = 3;   // P4: each of your inner-circle babysitters' own inner-circle babysitters
   const OUTER_PARENT_INNER_SITTERS = 2;   // P5a: each outer-circle parent's own inner-circle babysitters
@@ -336,7 +336,7 @@
   const QUICK_OWN_OUTER_SITTERS = 2;          // assumed outer-circle babysitters of your own
   const QUICK_OUTER_PARENTS_PER_INNER = 2;    // assumed ratio: outer-circle parents per inner-circle parent
 
-  // crossover discounts ‚Äî % of each tier assumed to be sitters not already counted
+  // crossover discounts \u2014 % of each tier assumed to be sitters not already counted
   const UNIQUE_P3 = 0.90;
   const UNIQUE_P4 = 0.75;
   const UNIQUE_P5 = 0.55;
