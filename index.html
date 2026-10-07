@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>opair — by invitation only</title>
+<title>opair ‚Äî by invitation only</title>
 <meta name="description" content="opair is an invite only app that connects you with babysitters, recommended by people you already know and trust">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  html{ font-size:clamp(16px, 14px + 0.4vw, 20px); }
   :root{
     --bg: #14181b;
     --bg-card: #1d2428;
@@ -29,7 +30,7 @@
     background:var(--bg);
     color:var(--ink);
     font-family:'Inter', sans-serif;
-    font-size:17px;
+    font-size:1.0625rem;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
     display:flex;
@@ -41,25 +42,25 @@
     flex:1;
     display:flex;
     justify-content:center;
-    padding:28px 16px 48px;
+    padding:1.75rem 1rem 3rem;
   }
 
-  .card{ width:100%; max-width:800px; display:flex; flex-direction:column; }
-  .inner{ max-width:440px; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; }
+  .card{ width:100%; max-width:50rem; display:flex; flex-direction:column; }
+  .inner{ max-width:27.5rem; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; }
 
   /* logo: two overlapping circles + wordmark */
   .logo{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
+    gap:0.5rem;
     font-family:'PT Serif', serif;
-    font-size:24px;
+    font-size:1.5rem;
     color:var(--ink);
     text-decoration:none;
-    margin-bottom:24px;
+    margin-bottom:1.5rem;
   }
-  .logo svg{ width:36px; height:24px; display:block; }
+  .logo svg{ width:2.25rem; height:1.5rem; display:block; }
 
   .body-wrap{ flex:1; display:flex; flex-direction:column; justify-content:center; }
 
@@ -67,44 +68,44 @@
     text-align:center;
     font-family:'PT Serif', serif;
     font-weight:400;
-    font-size:23px;
+    font-size:1.4375rem;
     line-height:1.3;
-    margin:0 0 22px;
+    margin:0 0 1.375rem;
   }
 
   .lede{
     text-align:center;
-    font-size:16.5px;
+    font-size:1.0312rem;
     line-height:1.4;
-    margin:0 0 26px;
+    margin:0 0 1.625rem;
   }
 
-  .audience{ text-align:center; margin-bottom:22px; }
+  .audience{ text-align:center; margin-bottom:1.375rem; }
   .audience h3{
     margin:0 0 2px;
-    font-size:15px;
+    font-size:0.9375rem;
     font-weight:600;
     color:var(--teal);
   }
-  .audience p{ margin:0; font-size:16.5px; line-height:1.3; }
+  .audience p{ margin:0; font-size:1.0312rem; line-height:1.3; }
 
   .closer{
     text-align:center;
-    font-size:16.5px;
-    margin:14px 0 26px;
+    font-size:1.0312rem;
+    margin:0.875rem 0 1.625rem;
   }
   .desc{
     text-align:center;
-    font-size:14px;
+    font-size:0.875rem;
     line-height:1.6;
     color:var(--ink-dim);
-    margin:0 0 6px;
+    margin:0 0 0.375rem;
   }
 
-  .calc-link-block{ text-align:center; margin:-8px 0 32px; }
+  .calc-link-block{ text-align:center; margin:-0.5rem 0 2rem; }
   .calc-link-inline{
     color:var(--teal);
-    font-size:18px;
+    font-size:1.125rem;
     font-weight:600;
     text-decoration:underline;
     text-underline-offset:4px;
@@ -117,19 +118,19 @@
     border:none;
     color:var(--ink-dim);
     font-family:'Inter', sans-serif;
-    font-size:14px;
+    font-size:0.875rem;
     cursor:pointer;
     padding:0;
-    margin-bottom:20px;
+    margin-bottom:1.25rem;
     text-transform:lowercase;
   }
   .back-btn:hover{ color:var(--ink); }
 
-  form{ display:flex; flex-direction:column; gap:14px; }
+  form{ display:flex; flex-direction:column; gap:0.875rem; }
 
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:0.625rem; }
 
-  label{ font-size:13px; color:var(--ink-dim); margin-bottom:6px; display:block; }
+  label{ font-size:0.8125rem; color:var(--ink-dim); margin-bottom:0.375rem; display:block; }
 
   input[type=text], input[type=tel]{
     width:100%;
@@ -137,9 +138,9 @@
     border:1px solid var(--line);
     color:var(--ink);
     font-family:'Inter', sans-serif;
-    font-size:16px;
-    padding:12px 14px;
-    border-radius:8px;
+    font-size:1rem;
+    padding:0.75rem 0.875rem;
+    border-radius:0.5rem;
     outline:none;
     transition:border-color .15s ease;
     text-transform:lowercase;
@@ -160,18 +161,18 @@
 
   .field{ display:flex; flex-direction:column; }
 
-  .role-toggle{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:2px; }
+  .role-toggle{ display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:2px; }
   .role-toggle input{ display:none; }
   .role-toggle label{
     margin:0;
     text-align:center;
-    font-size:15px;
+    font-size:0.9375rem;
     font-weight:500;
     color:var(--ink-dim);
     background:var(--bg-card);
     border:1px solid var(--line);
-    border-radius:8px;
-    padding:12px 10px;
+    border-radius:0.5rem;
+    padding:0.75rem 0.625rem;
     cursor:pointer;
     transition:all .15s ease;
   }
@@ -183,27 +184,27 @@
 
   .email-notice{
     text-align:center;
-    font-size:14px;
+    font-size:0.875rem;
     color:var(--ink);
     background:rgba(61,139,155,0.14);
     border:1px solid rgba(61,139,155,0.4);
-    border-radius:8px;
-    padding:12px 14px;
+    border-radius:0.5rem;
+    padding:0.75rem 0.875rem;
     line-height:1.5;
-    margin-top:6px;
+    margin-top:0.375rem;
   }
 
   button[type=submit], #showFormBtn{
-    margin-top:6px;
+    margin-top:0.375rem;
     width:100%;
     background:var(--teal);
     color:var(--teal-ink);
     border:none;
     font-family:'Inter', sans-serif;
     font-weight:500;
-    font-size:15.5px;
-    padding:12px;
-    border-radius:8px;
+    font-size:0.9688rem;
+    padding:0.75rem;
+    border-radius:0.5rem;
     cursor:pointer;
     transition:opacity .15s ease;
     text-transform:lowercase;
@@ -213,22 +214,22 @@
 
   .fine{
     text-align:center;
-    font-size:12px;
+    font-size:0.75rem;
     color:var(--ink-dim);
-    margin-top:18px;
+    margin-top:1.125rem;
     line-height:1.6;
   }
   .fine button{
     background:none; border:none; color:var(--ink-dim); text-decoration:underline;
-    font-size:12px; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
+    font-size:0.75rem; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
   }
 
-  .error{ font-size:12px; color:#ff8a90; margin-top:-6px; display:none; }
+  .error{ font-size:0.75rem; color:#ff8a90; margin-top:-0.375rem; display:none; }
 
-  footer{ text-align:center; font-size:11.5px; color:rgba(255,255,255,0.32); padding:20px 16px; }
+  footer{ text-align:center; font-size:0.7188rem; color:rgba(255,255,255,0.32); padding:1.25rem 1rem; }
   .footer-link{
     background:none; border:none; color:rgba(255,255,255,0.32); text-decoration:underline;
-    font-size:11.5px; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
+    font-size:0.7188rem; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
   }
   .footer-link:hover{ color:rgba(255,255,255,0.6); }
 
@@ -237,39 +238,39 @@
   .confirm h2{
     font-family:'PT Serif', serif;
     font-weight:400;
-    font-size:23px;
-    margin:0 0 16px;
+    font-size:1.4375rem;
+    margin:0 0 1rem;
   }
   .confirm p{
-    font-size:16px;
+    font-size:1rem;
     line-height:1.5;
     max-width:36ch;
     margin:0 auto;
   }
-  .confirm-links{ margin-top:28px; display:flex; flex-direction:column; gap:14px; align-items:center; }
-  .confirm-links a{ font-size:14.5px; color:var(--teal); font-weight:600; text-decoration:none; }
+  .confirm-links{ margin-top:1.75rem; display:flex; flex-direction:column; gap:0.875rem; align-items:center; }
+  .confirm-links a{ font-size:0.9062rem; color:var(--teal); font-weight:600; text-decoration:none; }
   .confirm-links a:hover{ text-decoration:underline; }
 
   /* privacy dialog */
   dialog{
-    max-width:520px;
+    max-width:32.5rem;
     width:92%;
     background:var(--bg-card);
     border:1px solid var(--line);
-    border-radius:14px;
-    padding:28px;
-    font-size:14px;
+    border-radius:0.875rem;
+    padding:1.75rem;
+    font-size:0.875rem;
     line-height:1.6;
     color:var(--ink-dim);
     text-transform:lowercase;
   }
   dialog::backdrop{ background:rgba(0,0,0,0.6); }
-  dialog h2{ font-family:'PT Serif', serif; font-weight:400; font-size:21px; color:var(--ink); margin:0 0 14px; }
-  dialog h3{ font-size:14px; font-weight:600; color:var(--teal); margin:18px 0 2px; }
+  dialog h2{ font-family:'PT Serif', serif; font-weight:400; font-size:1.3125rem; color:var(--ink); margin:0 0 0.875rem; }
+  dialog h3{ font-size:0.875rem; font-weight:600; color:var(--teal); margin:1.125rem 0 2px; }
   dialog .close-btn{
-    margin-top:24px; width:100%; background:var(--teal); border:none; color:var(--teal-ink);
-    font-weight:500; padding:13px; border-radius:8px; font-family:'Inter', sans-serif;
-    font-size:15px; cursor:pointer; text-transform:lowercase; transition:opacity .15s ease;
+    margin-top:1.5rem; width:100%; background:var(--teal); border:none; color:var(--teal-ink);
+    font-weight:500; padding:0.8125rem; border-radius:0.5rem; font-family:'Inter', sans-serif;
+    font-size:0.9375rem; cursor:pointer; text-transform:lowercase; transition:opacity .15s ease;
   }
   dialog .close-btn:hover{ opacity:0.88; }
 </style>
@@ -295,9 +296,9 @@
         </div>
 
         <p class="closer">it's word of mouth, at the speed of an app</p>
-        <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a></div>
+        <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works ‚Üí</a></div>
 
-        <p class="desc">we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
+        <p class="desc">we're growing one city at a time ‚Äî through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
         <button type="button" id="showFormBtn">request an invitation</button>
       </div>
     </div>
@@ -305,7 +306,7 @@
 
   <div class="card" id="formCard" style="display:none;">
     <div class="inner">
-      <button type="button" id="backBtn" class="back-btn">← go back</button>
+      <button type="button" id="backBtn" class="back-btn">‚Üê go back</button>
       <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip2"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip2)"/></svg>opair</a>
       <h1 class="tagline">tell us a bit about yourself</h1>
 
@@ -343,7 +344,7 @@
           </div>
         </div>
 
-        <div class="email-notice">clicking below submits your request — if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
+        <div class="email-notice">clicking below submits your request ‚Äî if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
 
         <button type="submit">submit</button>
       </form>
@@ -361,13 +362,13 @@
       <p>we review every request by hand. if we are operating in your city and we think it's a fit, we will text you at the number you gave us.<br><br>if we aren't in your city yet, you will be added to the list and notified when we're in town.<br><br>thanks for your interest in opair.</p>
       <div class="confirm-links">
         <a href="index.html">return to home</a>
-        <a href="calculator.html">see how the opair network works →</a>
+        <a href="calculator.html">see how the opair network works ‚Üí</a>
       </div>
     </div>
   </div>
 </div>
 
-<footer>© 2026 opair · lexington, ky · <button type="button" class="footer-link" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button></footer>
+<footer>¬© 2026 opair ¬∑ lexington, ky ¬∑ <button type="button" class="footer-link" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button></footer>
 
 <dialog id="privacyDialog">
   <h2>privacy policy</h2>
@@ -453,7 +454,7 @@
     .catch(() => {
       submitBtn.disabled = false;
       submitBtn.textContent = 'submit';
-      alert('something went wrong sending your request — please try again.');
+      alert('something went wrong sending your request ‚Äî please try again.');
     });
   });
 </script>
