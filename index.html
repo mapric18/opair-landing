@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>opair ‚Äî by invitation only</title>
+<title>opair &mdash; by invitation only</title>
 <meta name="description" content="opair is an invite only app that connects you with babysitters, recommended by people you already know and trust">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +46,7 @@
   }
 
   .card{ width:100%; max-width:50rem; display:flex; flex-direction:column; }
-  .inner{ max-width:27.5rem; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; }
+  .inner{ max-width:27.5rem; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; justify-content:center; }
 
   /* logo: two overlapping circles + wordmark */
   .logo{
@@ -62,7 +62,7 @@
   }
   .logo svg{ width:2.25rem; height:1.5rem; display:block; }
 
-  .body-wrap{ flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .body-wrap{ display:flex; flex-direction:column; }
 
   .tagline{
     text-align:center;
@@ -296,9 +296,9 @@
         </div>
 
         <p class="closer">it's word of mouth, at the speed of an app</p>
-        <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works ‚Üí</a></div>
+        <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works &rarr;</a></div>
 
-        <p class="desc">we're growing one city at a time ‚Äî through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
+        <p class="desc">we're growing one city at a time &mdash; through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
         <button type="button" id="showFormBtn">request an invitation</button>
       </div>
     </div>
@@ -306,7 +306,7 @@
 
   <div class="card" id="formCard" style="display:none;">
     <div class="inner">
-      <button type="button" id="backBtn" class="back-btn">‚Üê go back</button>
+      <button type="button" id="backBtn" class="back-btn">&larr; go back</button>
       <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip2"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip2)"/></svg>opair</a>
       <h1 class="tagline">tell us a bit about yourself</h1>
 
@@ -344,7 +344,7 @@
           </div>
         </div>
 
-        <div class="email-notice">clicking below submits your request ‚Äî if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
+        <div class="email-notice">clicking below submits your request &mdash; if you live in a city where we have launched we will be in touch soon. if not, we will keep you updated</div>
 
         <button type="submit">submit</button>
       </form>
@@ -362,13 +362,13 @@
       <p>we review every request by hand. if we are operating in your city and we think it's a fit, we will text you at the number you gave us.<br><br>if we aren't in your city yet, you will be added to the list and notified when we're in town.<br><br>thanks for your interest in opair.</p>
       <div class="confirm-links">
         <a href="index.html">return to home</a>
-        <a href="calculator.html">see how the opair network works ‚Üí</a>
+        <a href="calculator.html">see how the opair network works &rarr;</a>
       </div>
     </div>
   </div>
 </div>
 
-<footer>¬© 2026 opair ¬∑ lexington, ky ¬∑ <button type="button" class="footer-link" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button></footer>
+<footer>&copy; 2026 opair &middot; lexington, ky &middot; <button type="button" class="footer-link" onclick="document.getElementById('privacyDialog').showModal()">privacy policy</button></footer>
 
 <dialog id="privacyDialog">
   <h2>privacy policy</h2>
@@ -454,7 +454,7 @@
     .catch(() => {
       submitBtn.disabled = false;
       submitBtn.textContent = 'submit';
-      alert('something went wrong sending your request ‚Äî please try again.');
+      alert('something went wrong sending your request \u2014 please try again.');
     });
   });
 </script>
