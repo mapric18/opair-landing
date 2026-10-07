@@ -8,16 +8,18 @@
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0e1210;
-    --bg-card: #161c19;
-    --line: rgba(242,237,228,0.10);
-    --line-strong: rgba(242,237,228,0.22);
-    --ink: #f2ede4;
-    --ink-dim: rgba(242,237,228,0.55);
+    --bg: #14181b;
+    --bg-card: #1d2428;
+    --line: rgba(255,255,255,0.10);
+    --ink: #ffffff;
+    --ink-dim: rgba(255,255,255,0.62);
+    --teal: #3d8b9b;
+    --teal-ink: #14181b;
     --sage: #9dbb9f;
+    --sky: #a9c4e4;
   }
 
   *{ box-sizing:border-box; }
@@ -38,58 +40,79 @@
   .center{
     flex:1;
     display:flex;
+    justify-content:center;
+    padding:28px 16px 48px;
+  }
+
+  .card{ width:100%; max-width:800px; display:flex; flex-direction:column; }
+  .inner{ max-width:440px; width:100%; margin:0 auto; flex:1; display:flex; flex-direction:column; }
+
+  /* logo: two overlapping circles + wordmark */
+  .logo{
+    display:flex;
     align-items:center;
     justify-content:center;
-    padding:48px 20px;
+    gap:8px;
+    font-family:'PT Serif', serif;
+    font-size:24px;
+    color:var(--ink);
+    text-decoration:none;
+    margin-bottom:24px;
   }
+  .logo svg{ width:36px; height:24px; display:block; }
 
-  .card{
-    width:100%;
-    max-width:800px;
-  }
-
-  .inner{
-    max-width:400px;
-    margin:0 auto;
-  }
-
-  .mark{
-    font-family:'Fraunces', serif;
-    font-style:italic;
-    font-weight:500;
-    font-size:22px;
-    text-align:center;
-    margin-bottom:14px;
-    letter-spacing:0.01em;
-  }
+  .body-wrap{ flex:1; display:flex; flex-direction:column; justify-content:center; }
 
   .tagline{
     text-align:center;
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:17px;
-    line-height:1.5;
-    color:var(--ink);
-    margin-bottom:14px;
+    font-family:'PT Serif', serif;
+    font-weight:400;
+    font-size:23px;
+    line-height:1.3;
+    margin:0 0 22px;
   }
 
+  .lede{
+    text-align:center;
+    font-size:16.5px;
+    line-height:1.4;
+    margin:0 0 26px;
+  }
+
+  .audience{ text-align:center; margin-bottom:22px; }
+  .audience h3{
+    margin:0 0 2px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--teal);
+  }
+  .audience p{ margin:0; font-size:16.5px; line-height:1.3; }
+
+  .closer{
+    text-align:center;
+    font-size:16.5px;
+    margin:14px 0 26px;
+  }
   .desc{
     text-align:center;
-    font-size:13.5px;
-    line-height:1.7;
+    font-size:14px;
+    line-height:1.6;
     color:var(--ink-dim);
-    margin-bottom:36px;
+    margin:0 0 6px;
   }
 
-  .tag{
-    text-align:center;
-    font-size:12px;
-    letter-spacing:0.08em;
-    color:var(--ink-dim);
-    margin-bottom:6px;
+  .calc-link-block{ text-align:center; margin:-8px 0 32px; }
+  .calc-link-inline{
+    color:var(--teal);
+    font-size:18px;
+    font-weight:600;
+    text-decoration:underline;
+    text-underline-offset:4px;
   }
+  .calc-link-inline:hover{ color:var(--ink); }
 
   .back-btn{
+    align-self:flex-start;
     background:none;
     border:none;
     color:var(--ink-dim);
@@ -97,29 +120,16 @@
     font-size:14px;
     cursor:pointer;
     padding:0;
-    margin-bottom:28px;
+    margin-bottom:20px;
     text-transform:lowercase;
   }
   .back-btn:hover{ color:var(--ink); }
 
-  form{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-  }
+  form{ display:flex; flex-direction:column; gap:14px; }
 
-  .row2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 
-  label{
-    font-size:12px;
-    color:var(--ink-dim);
-    margin-bottom:6px;
-    display:block;
-  }
+  label{ font-size:13px; color:var(--ink-dim); margin-bottom:6px; display:block; }
 
   input[type=text], input[type=tel]{
     width:100%;
@@ -127,227 +137,141 @@
     border:1px solid var(--line);
     color:var(--ink);
     font-family:'Inter', sans-serif;
-    font-size:14.5px;
+    font-size:16px;
     padding:12px 14px;
-    border-radius:9px;
+    border-radius:8px;
     outline:none;
     transition:border-color .15s ease;
     text-transform:lowercase;
   }
-  input::placeholder{ color:rgba(242,237,228,0.28); }
-  input:focus{ border-color:var(--sage); }
+  input::placeholder{ color:rgba(255,255,255,0.28); }
+  input:focus{ border-color:var(--teal); }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus{
     -webkit-text-fill-color: var(--ink);
-    -webkit-box-shadow: 0 0 0 1000px rgba(157,187,159,0.14) inset;
-    box-shadow: 0 0 0 1000px rgba(157,187,159,0.14) inset;
+    -webkit-box-shadow: 0 0 0 1000px rgba(61,139,155,0.16) inset;
+    box-shadow: 0 0 0 1000px rgba(61,139,155,0.16) inset;
     caret-color: var(--ink);
-    border-color: var(--sage);
+    border-color: var(--teal);
     transition: background-color 5000s ease-in-out 0s;
   }
 
   .field{ display:flex; flex-direction:column; }
 
-  .role-toggle{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:2px;
-  }
+  .role-toggle{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:2px; }
   .role-toggle input{ display:none; }
   .role-toggle label{
     margin:0;
     text-align:center;
-    font-size:13.5px;
+    font-size:15px;
     font-weight:500;
     color:var(--ink-dim);
     background:var(--bg-card);
     border:1px solid var(--line);
-    border-radius:9px;
-    padding:11px 10px;
+    border-radius:8px;
+    padding:12px 10px;
     cursor:pointer;
     transition:all .15s ease;
   }
   .role-toggle input:checked + label{
-    border-color:var(--sage);
+    border-color:var(--teal);
     color:var(--ink);
-    background:rgba(157,187,159,0.12);
+    background:rgba(61,139,155,0.18);
   }
 
   .email-notice{
     text-align:center;
     font-size:14px;
-    font-weight:500;
     color:var(--ink);
-    background:rgba(157,187,159,0.12);
-    border:1px solid rgba(157,187,159,0.3);
-    border-radius:9px;
+    background:rgba(61,139,155,0.14);
+    border:1px solid rgba(61,139,155,0.4);
+    border-radius:8px;
     padding:12px 14px;
     line-height:1.5;
     margin-top:6px;
   }
 
   button[type=submit], #showFormBtn{
-    margin-top:10px;
+    margin-top:6px;
     width:100%;
-    background:var(--ink);
-    color:var(--bg);
+    background:var(--teal);
+    color:var(--teal-ink);
     border:none;
     font-family:'Inter', sans-serif;
-    font-weight:600;
-    font-size:14.5px;
-    padding:14px;
-    border-radius:9px;
+    font-weight:500;
+    font-size:15.5px;
+    padding:12px;
+    border-radius:8px;
     cursor:pointer;
     transition:opacity .15s ease;
     text-transform:lowercase;
   }
-  button[type=submit]:hover, #showFormBtn:hover{ opacity:0.85; }
-
-  .calc-link-block{
-    text-align: center;
-    margin-bottom: 36px;
-  }
-
-  .calc-link-inline{
-    color:var(--sage);
-    text-decoration:underline;
-    font-weight:600;
-  }
-  .calc-link-inline:hover{ color:var(--ink); }
+  button[type=submit]:hover, #showFormBtn:hover{ opacity:0.88; }
+  button[type=submit]:disabled{ opacity:0.6; cursor:default; }
 
   .fine{
     text-align:center;
-    font-size:11.5px;
+    font-size:12px;
     color:var(--ink-dim);
     margin-top:18px;
     line-height:1.6;
   }
   .fine button{
-    background:none;
-    border:none;
-    color:var(--ink-dim);
-    text-decoration:underline;
-    font-size:11.5px;
-    cursor:pointer;
-    padding:0;
-    font-family:inherit;
-    text-transform:lowercase;
+    background:none; border:none; color:var(--ink-dim); text-decoration:underline;
+    font-size:12px; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
   }
 
-  .error{
-    font-size:11.5px;
-    color:#d98b8b;
-    margin-top:-6px;
-    display:none;
-  }
+  .error{ font-size:12px; color:#ff8a90; margin-top:-6px; display:none; }
 
-  footer{
-    text-align:center;
-    font-size:11px;
-    color:rgba(242,237,228,0.3);
-    padding:20px;
-  }
+  footer{ text-align:center; font-size:11.5px; color:rgba(255,255,255,0.32); padding:20px 16px; }
   .footer-link{
-    background:none;
-    border:none;
-    color:rgba(242,237,228,0.3);
-    text-decoration:underline;
-    font-size:11px;
-    cursor:pointer;
-    padding:0;
-    font-family:inherit;
-    text-transform:lowercase;
+    background:none; border:none; color:rgba(255,255,255,0.32); text-decoration:underline;
+    font-size:11.5px; cursor:pointer; padding:0; font-family:inherit; text-transform:lowercase;
   }
-  .footer-link:hover{ color:rgba(242,237,228,0.55); }
+  .footer-link:hover{ color:rgba(255,255,255,0.6); }
 
   /* confirmation screen */
-  .confirm{
-    display:none;
-    text-align:center;
-  }
-  .confirm .mark-small{
-    font-family:'Fraunces', serif;
-    font-style:italic;
-    font-weight:500;
-    font-size:20px;
-    margin-bottom:22px;
-  }
+  .confirm{ display:none; text-align:center; }
   .confirm h2{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:24px;
-    margin:0 0 14px;
+    font-family:'PT Serif', serif;
+    font-weight:400;
+    font-size:23px;
+    margin:0 0 16px;
   }
   .confirm p{
-    font-size:14px;
-    color:var(--ink-dim);
-    line-height:1.7;
+    font-size:16px;
+    line-height:1.5;
     max-width:36ch;
     margin:0 auto;
   }
-
-  .confirm-links{
-    margin-top:28px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    align-items:center;
-  }
-  .confirm-links a{
-    font-size:13px;
-    color:var(--sage);
-    text-decoration:underline;
-    font-weight:600;
-  }
-  .confirm-links a:hover{ color:var(--ink); }
+  .confirm-links{ margin-top:28px; display:flex; flex-direction:column; gap:14px; align-items:center; }
+  .confirm-links a{ font-size:14.5px; color:var(--teal); font-weight:600; text-decoration:none; }
+  .confirm-links a:hover{ text-decoration:underline; }
 
   /* privacy dialog */
   dialog{
     max-width:520px;
     width:92%;
     background:var(--bg-card);
-    color:var(--ink);
     border:1px solid var(--line);
     border-radius:14px;
-    padding:32px;
-    font-size:13.5px;
-    line-height:1.65;
+    padding:28px;
+    font-size:14px;
+    line-height:1.6;
     color:var(--ink-dim);
     text-transform:lowercase;
   }
   dialog::backdrop{ background:rgba(0,0,0,0.6); }
-  dialog h2{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:20px;
-    color:var(--ink);
-    margin:0 0 16px;
-  }
-  dialog h3{
-    font-size:12.5px;
-    letter-spacing:0.05em;
-    color:var(--ink);
-    margin:20px 0 2px;
-  }
+  dialog h2{ font-family:'PT Serif', serif; font-weight:400; font-size:21px; color:var(--ink); margin:0 0 14px; }
+  dialog h3{ font-size:14px; font-weight:600; color:var(--teal); margin:18px 0 2px; }
   dialog .close-btn{
-    margin-top:24px;
-    width:100%;
-    background:var(--sage);
-    border:1px solid var(--sage);
-    color:#14181b;
-    font-weight:600;
-    padding:11px;
-    border-radius:9px;
-    font-family:'Inter', sans-serif;
-    font-size:13.5px;
-    cursor:pointer;
-    text-transform:lowercase;
-    transition:opacity .15s ease;
+    margin-top:24px; width:100%; background:var(--teal); border:none; color:var(--teal-ink);
+    font-weight:500; padding:13px; border-radius:8px; font-family:'Inter', sans-serif;
+    font-size:15px; cursor:pointer; text-transform:lowercase; transition:opacity .15s ease;
   }
-  dialog .close-btn:hover{ opacity:0.85; }
+  dialog .close-btn:hover{ opacity:0.88; }
 </style>
 </head>
 <body>
@@ -355,20 +279,35 @@
 <div class="center">
   <div class="card" id="landingCard">
     <div class="inner">
-      <div class="mark">opair</div>
-      <div class="tagline">the babysitter network built on trust</div>
-      <div class="desc">opair is an invite only app that connects you with babysitters — for bedtime, rides to practice, last-minute plans and everything in between — recommended by people you already know and trust<br><br>no scrolling through strangers' profiles<br>no texting sitter after sitter<br>no scrambling when plans change<br><br><em>it's word of mouth, at the speed of an app</em></div>
-      <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a></div>
-      <div class="desc">we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</div>
-      <button type="button" id="showFormBtn">request an invitation</button>
+      <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip1"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip1)"/></svg>opair</a>
+      <div class="body-wrap">
+        <h1 class="tagline">the babysitter network built on trust</h1>
+        <p class="lede">opair is an invite only app that connects families with babysitters they already trust, and babysitters with families who already trust them. every connection is recommended by people you already know</p>
+
+        <div class="audience">
+          <h3>for parents</h3>
+          <p>no scrolling through strangers' profiles<br>no texting person after person<br>no scrambling when plans change</p>
+        </div>
+
+        <div class="audience">
+          <h3>for babysitters</h3>
+          <p>no cold applications<br>no taking jobs from families you don't know<br>no guessing what you are signing up for</p>
+        </div>
+
+        <p class="closer">it's word of mouth, at the speed of an app</p>
+        <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works →</a></div>
+
+        <p class="desc">we're growing one city at a time — through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
+        <button type="button" id="showFormBtn">request an invitation</button>
+      </div>
     </div>
   </div>
 
   <div class="card" id="formCard" style="display:none;">
     <div class="inner">
-      <button type="button" id="backBtn" class="back-btn">← back</button>
-      <div class="mark">opair</div>
-      <div class="tagline">tell us a bit about yourself</div>
+      <button type="button" id="backBtn" class="back-btn">← go back</button>
+      <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip2"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip2)"/></svg>opair</a>
+      <h1 class="tagline">tell us a bit about yourself</h1>
 
       <form id="inviteForm">
         <div class="row2">
@@ -417,7 +356,7 @@
 
   <div class="card confirm" id="confirmCard">
     <div class="inner">
-      <div class="mark-small">opair</div>
+      <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip3"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip3)"/></svg>opair</a>
       <h2>you're on the list.</h2>
       <p>we review every request by hand. if we are operating in your city and we think it's a fit, we will text you at the number you gave us.<br><br>if we aren't in your city yet, you will be added to the list and notified when we're in town.<br><br>thanks for your interest in opair.</p>
       <div class="confirm-links">
@@ -455,12 +394,12 @@
 <script>
   document.getElementById('showFormBtn').addEventListener('click', function(){
     document.getElementById('landingCard').style.display = 'none';
-    document.getElementById('formCard').style.display = 'block';
+    document.getElementById('formCard').style.display = 'flex';
   });
 
   document.getElementById('backBtn').addEventListener('click', function(){
     document.getElementById('formCard').style.display = 'none';
-    document.getElementById('landingCard').style.display = 'block';
+    document.getElementById('landingCard').style.display = 'flex';
   });
 
   const form = document.getElementById('inviteForm');
@@ -513,7 +452,7 @@
     })
     .catch(() => {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'submit request';
+      submitBtn.textContent = 'submit';
       alert('something went wrong sending your request — please try again.');
     });
   });
