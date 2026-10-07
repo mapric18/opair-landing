@@ -273,6 +273,22 @@
     font-size:0.9375rem; cursor:pointer; text-transform:lowercase; transition:opacity .15s ease;
   }
   dialog .close-btn:hover{ opacity:0.88; }
+  /* desktop: let the landing page spread out */
+  @media (min-width: 900px){
+    #landingCard{ max-width:68rem; }
+    #landingCard .inner{ max-width:none; }
+    #landingCard .logo{ font-size:1.875rem; margin-bottom:2.25rem; }
+    #landingCard .logo svg{ width:2.8rem; height:1.875rem; }
+    #landingCard .tagline{ font-size:2.5rem; margin-bottom:1.75rem; }
+    .lede{ max-width:42rem; margin:0 auto 2.75rem; font-size:1.2rem; line-height:1.5; }
+    .audiences{ display:grid; grid-template-columns:1fr 1fr; gap:3rem; max-width:52rem; margin:0 auto 1.5rem; width:100%; }
+    .audience{ background:var(--bg-card); border:1px solid var(--line); border-radius:0.875rem; padding:1.5rem 1.25rem; margin:0; }
+    .audience h3{ font-size:1.0625rem; margin-bottom:0.5rem; }
+    .audience p{ line-height:1.6; }
+    .closer{ font-size:1.25rem; margin-top:1.5rem; }
+    .desc{ max-width:34rem; margin-left:auto; margin-right:auto; }
+    #showFormBtn{ max-width:22rem; align-self:center; }
+  }
 </style>
 </head>
 <body>
@@ -285,6 +301,7 @@
         <h1 class="tagline">the babysitter network built on trust</h1>
         <p class="lede">opair is an invite only app that connects families with babysitters they already trust, and babysitters with families who already trust them. every connection is recommended by people you already know</p>
 
+        <div class="audiences">
         <div class="audience">
           <h3>for parents</h3>
           <p>no scrolling through strangers' profiles<br>no texting person after person<br>no scrambling when plans change</p>
@@ -293,6 +310,7 @@
         <div class="audience">
           <h3>for babysitters</h3>
           <p>no cold applications<br>no taking jobs from families you don't know<br>no guessing what you are signing up for</p>
+        </div>
         </div>
 
         <p class="closer">it's word of mouth, at the speed of an app</p>

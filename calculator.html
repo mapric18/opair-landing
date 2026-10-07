@@ -228,6 +228,17 @@
   }
   .foot b{ color: var(--teal); }
   .hidden{ display:none; }
+  /* desktop: sliders on the left, results on the right */
+  @media (min-width: 900px){
+    .wrap{ max-width:68rem; }
+    .top{ margin-bottom:2.5rem; }
+    h1{ font-size:2.5rem; }
+    .sub{ max-width:46rem; font-size:1.0625rem; }
+    .layout{ display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start; }
+    .side{ position:sticky; top:2rem; }
+    .result{ margin-top:0; }
+    .foot{ margin-top:1.5rem; text-align:left; }
+  }
 </style>
 </head>
 <body>
@@ -241,6 +252,8 @@
   <div class="sub"><em>it's word of mouth, at the speed of an app</em></div>
   <div class="sub">your own network is your best resource &mdash; the people you already trust are the fastest way to find childcare. this shows exactly how far that reach goes, based on how much trust you have in each connection: whether they're in your inner circle or your outer circle.</div>
 
+  <div class="layout">
+  <div class="controls">
   <div class="toggle">
     <button id="btnQuick" class="active">quick view</button>
     <button id="btnDetailed">detailed view</button>
@@ -277,7 +290,9 @@
       <div class="hint">the wider parent network around you</div>
     </div>
   </div>
+  </div>
 
+  <div class="side">
   <div class="result">
     <div class="label">estimated unique sitters in your reach</div>
     <div class="big" id="totalOut">0</div>
@@ -302,6 +317,8 @@
   </div>
 
   <div class="foot" id="footText"></div>
+  </div>
+  </div>
 </div>
 
 <script>
