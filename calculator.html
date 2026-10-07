@@ -7,16 +7,16 @@
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0e1210;
-    --bg-card: #161c19;
-    --line: rgba(242,237,228,0.10);
-    --line-strong: rgba(242,237,228,0.22);
-    --ink: #f2ede4;
-    --ink-dim: rgba(242,237,228,0.55);
-    --sage: #9dbb9f;
+    --bg: #14181b;
+    --bg-card: #1d2428;
+    --line: rgba(255,255,255,0.10);
+    --line-strong: rgba(255,255,255,0.22);
+    --ink: #ffffff;
+    --ink-dim: rgba(255,255,255,0.62);
+    --teal: #3d8b9b;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
@@ -26,7 +26,7 @@
     -webkit-font-smoothing: antialiased;
     display:flex;
     justify-content:center;
-    padding: 48px 20px;
+    padding: 28px 16px 48px;
     min-height:100vh;
     text-transform: lowercase;
   }
@@ -49,9 +49,28 @@
     margin-bottom:28px;
   }
   .back-btn:hover{ color:var(--ink); }
+  .top{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:32px;
+  }
+  .top .back-btn{ position:absolute; left:0; margin:0; }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'PT Serif', serif;
+    font-size:24px;
+    color:var(--ink);
+    text-decoration:none;
+    text-transform:lowercase;
+  }
+  .logo svg{ width:36px; height:24px; display:block; }
   h1{
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
+    font-family: 'PT Serif', serif;
+    font-weight: 400;
     font-size: 26px;
     line-height: 1.3;
     margin-bottom: 16px;
@@ -59,8 +78,8 @@
   }
   .sub{
     color: var(--ink-dim);
-    font-size: 13.5px;
-    line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.6;
     margin-bottom: 14px;
   }
   .sub:last-of-type{
@@ -69,7 +88,7 @@
   .toggle{
     display:flex;
     background: var(--bg-card);
-    border-radius: 9px;
+    border-radius: 8px;
     padding: 4px;
     margin-bottom: 32px;
     border: 1px solid var(--line);
@@ -79,7 +98,7 @@
     background: transparent;
     border:none;
     color: var(--ink-dim);
-    font-size: 13px;
+    font-size: 14.5px;
     padding: 10px 0;
     border-radius: 7px;
     cursor:pointer;
@@ -88,21 +107,21 @@
     transition: all .15s ease;
   }
   .toggle button.active{
-    background: rgba(157,187,159,0.12);
-    border: 1px solid var(--sage);
+    background: rgba(61,139,155,0.18);
+    border: 1px solid var(--teal);
     color: var(--ink);
     font-weight: 500;
   }
   .toggle-sub{
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink-dim);
     margin-bottom: 28px;
     text-align: left;
   }
   .group-label{
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-weight: 500;
+    font-family: 'PT Serif', serif;
+    font-size: 19px;
+    font-weight: 400;
     color: var(--ink);
     margin: 40px 0 18px;
   }
@@ -114,12 +133,12 @@
     display:flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 14px;
+    font-size: 15.5px;
     color: var(--ink);
     margin-bottom: 10px;
   }
   .field label span.val{
-    color: var(--sage);
+    color: var(--teal);
     font-weight: 700;
     font-size: 18px;
   }
@@ -136,16 +155,16 @@
     width:20px;
     height:20px;
     border-radius:50%;
-    background: var(--sage);
+    background: var(--teal);
     cursor:pointer;
     border: 3px solid var(--bg);
-    box-shadow: 0 0 0 1px var(--sage);
+    box-shadow: 0 0 0 1px var(--teal);
   }
   input[type=range]::-moz-range-thumb{
     width:20px;
     height:20px;
     border-radius:50%;
-    background: var(--sage);
+    background: var(--teal);
     cursor:pointer;
     border: 3px solid var(--bg);
   }
@@ -168,10 +187,10 @@
     margin-bottom: 6px;
   }
   .result .big{
-    font-family: 'Fraunces', serif;
+    font-family: 'PT Serif', serif;
     font-size: 48px;
-    font-weight: 500;
-    color: var(--sage);
+    font-weight: 700;
+    color: var(--teal);
     line-height: 1;
     margin-bottom: 20px;
     font-variant-numeric: tabular-nums;
@@ -195,7 +214,7 @@
   .breakdown .row .n{
     font-size: 17px;
     font-weight: 700;
-    color: var(--sage);
+    color: var(--teal);
     flex-shrink: 0;
     margin-left: 12px;
   }
@@ -206,13 +225,16 @@
     line-height: 1.6;
     text-align:center;
   }
-  .foot b{ color: var(--sage); }
+  .foot b{ color: var(--teal); }
   .hidden{ display:none; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a href="index.html" class="back-btn">← back</a>
+  <div class="top">
+    <a href="index.html" class="back-btn">← go back</a>
+    <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip)"/></svg>opair</a>
+  </div>
   <div class="eyebrow">opair network calculator</div>
   <h1>see how far your circles can reach</h1>
   <div class="sub"><em>it's word of mouth, at the speed of an app</em></div>
