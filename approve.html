@@ -84,25 +84,33 @@
     <div class="screen" id="pending">
       <h1>parent approval</h1>
       <p>hi <span id="guardianName"></span>,</p>
+      <p>your child has listed you as their parent or guardian on opair, and needs your approval to start babysitting.</p>
+      <p>if you'd like to proceed, we'll send a verification code to <strong class="maskedPhone"></strong>.</p>
+      <div class="actions">
+        <button class="approve" id="sendBtn">send code</button>
+      </div>
+      <p class="msg" id="sendMsg"></p>
+    </div>
+
+    <div class="screen" id="code">
+      <h1>enter your code</h1>
+      <p>we sent a 6-digit code to <strong class="maskedPhone"></strong>.</p>
+      <div class="actions">
+        <input id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+        <button class="approve" id="verifyBtn">verify code</button>
+      </div>
+      <p class="msg" id="codeMsg"></p>
+    </div>
+
+    <div class="screen" id="review">
+      <h1>approve your child</h1>
       <p><strong id="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian.</p>
       <p>because they are under 18, they need your approval before they can receive babysitting jobs.</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
         <button class="decline" id="declineBtn">decline</button>
       </div>
-    </div>
-
-    <div class="screen" id="verify">
-      <h1>confirm it's you</h1>
-      <p>we'll text a code to <strong id="maskedPhone"></strong> to make sure it's really you approving.</p>
-      <div class="actions" id="sendStep">
-        <button class="approve" id="sendBtn">text me a code</button>
-      </div>
-      <div class="actions" id="codeStep" style="display:none">
-        <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
-        <button class="approve" id="confirmBtn">confirm &amp; approve</button>
-      </div>
-      <p class="msg" id="verifyMsg"></p>
+      <p class="msg" id="reviewMsg"></p>
     </div>
 
     <div class="screen" id="approved">
@@ -153,10 +161,12 @@
 
   let guardianPhone = "";
   let confirmation = null;
+  let idToken = null;
 
   function show(id){
     document.querySelectorAll(".screen").forEach(el => el.classList.toggle("on", el.id === id));
   }
+  function setMsg(id, text){ document.getElementById(id).textContent = text; }
 
   async function load(){
     if (!token) return show("invalid");
@@ -167,8 +177,8 @@
         document.getElementById("guardianName").textContent = data.guardianName || "there";
         document.getElementById("sitterName").textContent = data.sitterName || "your child";
         guardianPhone = data.guardianPhone || "";
-        document.getElementById("maskedPhone").textContent =
-          "the number ending in " + guardianPhone.slice(-4);
+        document.querySelectorAll(".maskedPhone").forEach(el =>
+          el.textContent = "the number ending in " + guardianPhone.slice(-4));
       }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
@@ -176,8 +186,46 @@
     }
   }
 
-  async function respond(decision, idToken){
-    document.querySelectorAll(".actions button").forEach(b => b.disabled = true);
+  const recaptcha = new RecaptchaVerifier(auth, "sendBtn", { size: "invisible" });
+
+  // Step 1: text a code to the guardian's number.
+  async function sendCode(){
+    const btn = document.getElementById("sendBtn");
+    btn.disabled = true; setMsg("sendMsg", "");
+    try {
+      confirmation = await signInWithPhoneNumber(auth, guardianPhone, recaptcha);
+      show("code");
+      document.getElementById("codeInput").focus();
+    } catch (e) {
+      btn.disabled = false;
+      recaptcha.render().then((id) => window.grecaptcha?.reset(id)).catch(() => {});
+      setMsg("sendMsg", e.code === "auth/too-many-requests"
+        ? "too many attempts. please try again later."
+        : "couldn't send the code. please try again.");
+    }
+  }
+
+  // Step 2: check the code. Keep the ID token for the approve/decline call.
+  async function verifyCode(){
+    const code = document.getElementById("codeInput").value.trim();
+    if (code.length < 6) return setMsg("codeMsg", "enter the 6-digit code.");
+    const btn = document.getElementById("verifyBtn");
+    btn.disabled = true; setMsg("codeMsg", "");
+    try {
+      const result = await confirmation.confirm(code);
+      idToken = await result.user.getIdToken();
+      signOut(auth);
+      show("review");
+    } catch (e) {
+      btn.disabled = false;
+      setMsg("codeMsg", "that code didn't work. check it and try again.");
+    }
+  }
+
+  // Step 3: approve or decline.
+  async function respond(decision){
+    const buttons = document.querySelectorAll("#review button");
+    buttons.forEach(b => b.disabled = true); setMsg("reviewMsg", "");
     try {
       const res = await fetch(API, {
         method: "POST",
@@ -186,8 +234,8 @@
       });
       const data = await res.json();
       if (data.status === "unverified") {
-        document.querySelectorAll(".actions button").forEach(b => b.disabled = false);
-        return setMsg("that phone number doesn't match. please try again.");
+        buttons.forEach(b => b.disabled = false);
+        return setMsg("reviewMsg", "we couldn't verify your phone number. please reload and try again.");
       }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
@@ -195,46 +243,9 @@
     }
   }
 
-  function setMsg(text){ document.getElementById("verifyMsg").textContent = text; }
-
-  const recaptcha = new RecaptchaVerifier(auth, "sendBtn", { size: "invisible" });
-
-  async function sendCode(){
-    const btn = document.getElementById("sendBtn");
-    btn.disabled = true; setMsg("");
-    try {
-      confirmation = await signInWithPhoneNumber(auth, guardianPhone, recaptcha);
-      document.getElementById("sendStep").style.display = "none";
-      document.getElementById("codeStep").style.display = "flex";
-      document.getElementById("code").focus();
-    } catch (e) {
-      btn.disabled = false;
-      recaptcha.render().then((id) => window.grecaptcha?.reset(id)).catch(() => {});
-      setMsg(e.code === "auth/too-many-requests"
-        ? "too many attempts. please try again later."
-        : "couldn't send the code. please try again.");
-    }
-  }
-
-  async function confirmCode(){
-    const code = document.getElementById("code").value.trim();
-    if (code.length < 6) return setMsg("enter the 6-digit code.");
-    const btn = document.getElementById("confirmBtn");
-    btn.disabled = true; setMsg("");
-    try {
-      const result = await confirmation.confirm(code);
-      const idToken = await result.user.getIdToken();
-      await respond("approve", idToken);
-      signOut(auth);
-    } catch (e) {
-      btn.disabled = false;
-      setMsg("that code didn't work. check it and try again.");
-    }
-  }
-
-  document.getElementById("approveBtn").addEventListener("click", () => show("verify"));
   document.getElementById("sendBtn").addEventListener("click", sendCode);
-  document.getElementById("confirmBtn").addEventListener("click", confirmCode);
+  document.getElementById("verifyBtn").addEventListener("click", verifyCode);
+  document.getElementById("approveBtn").addEventListener("click", () => respond("approve"));
   document.getElementById("declineBtn").addEventListener("click", () => respond("decline"));
   load();
 </script>
