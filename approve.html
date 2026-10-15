@@ -60,6 +60,14 @@
   .approve{ background:var(--teal); color:var(--teal-ink); }
   .decline{ background:var(--bg-card); color:var(--ink-dim); border:1px solid var(--line); }
 
+  input{
+    width:100%; background:var(--bg-card); border:1px solid var(--line); color:var(--ink);
+    font-family:'Inter', sans-serif; font-size:1.25rem; letter-spacing:0.3em; text-align:center;
+    padding:0.75rem; border-radius:0.5rem; outline:none;
+  }
+  input:focus{ border-color:var(--teal); }
+  .msg{ font-size:0.8125rem; color:#ff8a90; min-height:1.2em; margin:0.5rem 0 0; }
+
   .screen{ display:none; }
   .screen.on{ display:block; }
 
@@ -82,6 +90,19 @@
         <button class="approve" id="approveBtn">i approve</button>
         <button class="decline" id="declineBtn">decline</button>
       </div>
+    </div>
+
+    <div class="screen" id="verify">
+      <h1>confirm it's you</h1>
+      <p>we'll text a code to <strong id="maskedPhone"></strong> to make sure it's really you approving.</p>
+      <div class="actions" id="sendStep">
+        <button class="approve" id="sendBtn">text me a code</button>
+      </div>
+      <div class="actions" id="codeStep" style="display:none">
+        <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+        <button class="approve" id="confirmBtn">confirm &amp; approve</button>
+      </div>
+      <p class="msg" id="verifyMsg"></p>
     </div>
 
     <div class="screen" id="approved">
@@ -113,9 +134,25 @@
 </div>
 <footer>&copy; opair</footer>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // Firebase web app config (Firebase console > Project settings > Your apps).
+  // These values are public by design.
+  const firebaseConfig = {
+    apiKey: "AIzaSyATO4h2DR7XB5jiBqLqDo0Q8sh6ktiAL8I",
+    authDomain: "opair-11m8p.firebaseapp.com",
+    projectId: "opair-11m8p",
+    appId: "1:602145823014:web:c8c431c1fd13843fc5c9e7",
+  };
+  const auth = getAuth(initializeApp(firebaseConfig));
+
   const API = "https://us-central1-opair-11m8p.cloudfunctions.net/guardianAuthorize";
   const token = new URLSearchParams(location.search).get("token") || "";
+
+  let guardianPhone = "";
+  let confirmation = null;
 
   function show(id){
     document.querySelectorAll(".screen").forEach(el => el.classList.toggle("on", el.id === id));
@@ -129,6 +166,9 @@
       if (data.status === "pending") {
         document.getElementById("guardianName").textContent = data.guardianName || "there";
         document.getElementById("sitterName").textContent = data.sitterName || "your child";
+        guardianPhone = data.guardianPhone || "";
+        document.getElementById("maskedPhone").textContent =
+          "the number ending in " + guardianPhone.slice(-4);
       }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
@@ -136,22 +176,65 @@
     }
   }
 
-  async function respond(decision){
+  async function respond(decision, idToken){
     document.querySelectorAll(".actions button").forEach(b => b.disabled = true);
     try {
       const res = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, decision }),
+        body: JSON.stringify({ token, decision, idToken }),
       });
       const data = await res.json();
+      if (data.status === "unverified") {
+        document.querySelectorAll(".actions button").forEach(b => b.disabled = false);
+        return setMsg("that phone number doesn't match. please try again.");
+      }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
       show("error");
     }
   }
 
-  document.getElementById("approveBtn").addEventListener("click", () => respond("approve"));
+  function setMsg(text){ document.getElementById("verifyMsg").textContent = text; }
+
+  const recaptcha = new RecaptchaVerifier(auth, "sendBtn", { size: "invisible" });
+
+  async function sendCode(){
+    const btn = document.getElementById("sendBtn");
+    btn.disabled = true; setMsg("");
+    try {
+      confirmation = await signInWithPhoneNumber(auth, guardianPhone, recaptcha);
+      document.getElementById("sendStep").style.display = "none";
+      document.getElementById("codeStep").style.display = "flex";
+      document.getElementById("code").focus();
+    } catch (e) {
+      btn.disabled = false;
+      recaptcha.render().then((id) => window.grecaptcha?.reset(id)).catch(() => {});
+      setMsg(e.code === "auth/too-many-requests"
+        ? "too many attempts. please try again later."
+        : "couldn't send the code. please try again.");
+    }
+  }
+
+  async function confirmCode(){
+    const code = document.getElementById("code").value.trim();
+    if (code.length < 6) return setMsg("enter the 6-digit code.");
+    const btn = document.getElementById("confirmBtn");
+    btn.disabled = true; setMsg("");
+    try {
+      const result = await confirmation.confirm(code);
+      const idToken = await result.user.getIdToken();
+      await respond("approve", idToken);
+      signOut(auth);
+    } catch (e) {
+      btn.disabled = false;
+      setMsg("that code didn't work. check it and try again.");
+    }
+  }
+
+  document.getElementById("approveBtn").addEventListener("click", () => show("verify"));
+  document.getElementById("sendBtn").addEventListener("click", sendCode);
+  document.getElementById("confirmBtn").addEventListener("click", confirmCode);
   document.getElementById("declineBtn").addEventListener("click", () => respond("decline"));
   load();
 </script>
