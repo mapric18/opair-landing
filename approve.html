@@ -59,6 +59,7 @@
   button:disabled{ opacity:0.6; cursor:default; }
   .approve{ background:var(--teal); color:var(--teal-ink); }
   .decline{ background:var(--bg-card); color:var(--ink-dim); border:1px solid var(--line); }
+  .ghost{ background:transparent; color:var(--ink); border:1px solid var(--line); }
 
   input{
     width:100%; background:var(--bg-card); border:1px solid var(--line); color:var(--ink);
@@ -104,7 +105,7 @@
       <h1>are you sure?</h1>
       <p><strong class="sitterName"></strong> won't be able to become a member of opair without your approval</p>
       <div class="actions">
-        <button class="decline" id="confirmDeclineBtn">yes, i do not approve</button>
+        <button class="ghost" id="confirmDeclineBtn">i do not approve at this time</button>
         <button class="approve" id="backBtn">go back</button>
       </div>
       <p class="msg" id="declineMsg"></p>
