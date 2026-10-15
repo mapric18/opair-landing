@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>opair &mdash; parent approval</title>
+<title>opair &mdash; parent/guardian approval</title>
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="favicon.png">
@@ -66,6 +66,12 @@
     padding:0.75rem; border-radius:0.5rem; outline:none;
   }
   input:focus{ border-color:var(--teal); }
+  .linkish{
+    background:none; border:none; padding:0; margin-top:1rem; width:auto;
+    color:var(--ink-dim); font-size:0.8125rem; text-decoration:underline; text-underline-offset:3px;
+  }
+  .linkish:hover{ color:var(--ink); opacity:1; }
+  a.inline{ color:var(--teal); font-weight:600; }
   .msg{ font-size:0.8125rem; color:#ff8a90; min-height:1.2em; margin:0.5rem 0 0; }
 
   .screen{ display:none; }
@@ -82,19 +88,31 @@
     <div class="screen on" id="loading"><p class="dim">loading&hellip;</p></div>
 
     <div class="screen" id="pending">
-      <h1>parent approval</h1>
+      <h1>parent/guardian approval</h1>
       <p>hi <span id="guardianName"></span>,</p>
-      <p>your child has listed you as their parent or guardian on opair, and needs your approval to start babysitting.</p>
-      <p>if you'd like to proceed, we'll send a verification code to <strong class="maskedPhone"></strong>.</p>
+      <p><strong class="sitterName"></strong> has listed you as their parent/guardian on opair and needs your approval to become a member.</p>
+      <p class="dim">not sure what opair is? <a class="inline" href="https://opair.app" target="_blank" rel="noopener">find out more here</a></p>
+      <p>if you want to proceed, we will send a verification code to your phone number ending in <strong class="lastFour"></strong>.</p>
       <div class="actions">
         <button class="approve" id="sendBtn">send code</button>
       </div>
       <p class="msg" id="sendMsg"></p>
+      <button class="linkish" id="notApproveBtn">i do not approve</button>
+    </div>
+
+    <div class="screen" id="confirmDecline">
+      <h1>are you sure?</h1>
+      <p><strong class="sitterName"></strong> won't be able to become a member of opair without your approval.</p>
+      <div class="actions">
+        <button class="decline" id="confirmDeclineBtn">yes, i do not approve</button>
+        <button class="approve" id="backBtn">go back</button>
+      </div>
+      <p class="msg" id="declineMsg"></p>
     </div>
 
     <div class="screen" id="code">
       <h1>enter your code</h1>
-      <p>we sent a 6-digit code to <strong class="maskedPhone"></strong>.</p>
+      <p>we sent a 6-digit code to your phone number ending in <strong class="lastFour"></strong>.</p>
       <div class="actions">
         <input id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
         <button class="approve" id="verifyBtn">verify code</button>
@@ -104,7 +122,7 @@
 
     <div class="screen" id="review">
       <h1>approve your child</h1>
-      <p><strong id="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian.</p>
+      <p><strong class="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian.</p>
       <p>because they are under 18, they need your approval before they can receive babysitting jobs.</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
@@ -175,10 +193,11 @@
       const data = await res.json();
       if (data.status === "pending") {
         document.getElementById("guardianName").textContent = data.guardianName || "there";
-        document.getElementById("sitterName").textContent = data.sitterName || "your child";
+        document.querySelectorAll(".sitterName").forEach(el =>
+          el.textContent = data.sitterName || "your child");
         guardianPhone = data.guardianPhone || "";
-        document.querySelectorAll(".maskedPhone").forEach(el =>
-          el.textContent = "the number ending in " + guardianPhone.slice(-4));
+        document.querySelectorAll(".lastFour").forEach(el =>
+          el.textContent = guardianPhone.slice(-4));
       }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
@@ -243,6 +262,26 @@
     }
   }
 
+  // "i do not approve" from the first screen: confirm, record it, go home.
+  async function declineAndLeave(){
+    const btn = document.getElementById("confirmDeclineBtn");
+    btn.disabled = true; setMsg("declineMsg", "");
+    try {
+      await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, decision: "decline" }),
+      });
+      location.href = "https://opair.app";
+    } catch (e) {
+      btn.disabled = false;
+      setMsg("declineMsg", "something went wrong. please try again.");
+    }
+  }
+
+  document.getElementById("notApproveBtn").addEventListener("click", () => show("confirmDecline"));
+  document.getElementById("backBtn").addEventListener("click", () => show("pending"));
+  document.getElementById("confirmDeclineBtn").addEventListener("click", declineAndLeave);
   document.getElementById("sendBtn").addEventListener("click", sendCode);
   document.getElementById("verifyBtn").addEventListener("click", verifyCode);
   document.getElementById("approveBtn").addEventListener("click", () => respond("approve"));
