@@ -137,12 +137,11 @@
     <div class="screen" id="review">
       <h1>approve your child</h1>
       <div class="card">
-        <p><strong class="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian</p>
+        <p>confirm below if you approve <strong class="sitterName"></strong> becoming a babysitter on opair and receiving job offers through the opair network</p>
       </div>
-      <p class="note">because they are under 18, they need your approval before they can receive babysitting jobs</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
-        <button class="decline" id="declineBtn">decline</button>
+        <button class="ghost" id="declineBtn">decline</button>
       </div>
       <p class="msg" id="reviewMsg"></p>
     </div>
@@ -295,13 +294,16 @@
     }
   }
 
-  document.getElementById("notApproveBtn").addEventListener("click", () => show("confirmDecline"));
-  document.getElementById("backBtn").addEventListener("click", () => show("pending"));
+  let declineFrom = "pending";
+  function askDecline(from){ declineFrom = from; show("confirmDecline"); }
+
+  document.getElementById("notApproveBtn").addEventListener("click", () => askDecline("pending"));
+  document.getElementById("declineBtn").addEventListener("click", () => askDecline("review"));
+  document.getElementById("backBtn").addEventListener("click", () => show(declineFrom));
   document.getElementById("confirmDeclineBtn").addEventListener("click", declineAndLeave);
   document.getElementById("sendBtn").addEventListener("click", sendCode);
   document.getElementById("verifyBtn").addEventListener("click", verifyCode);
   document.getElementById("approveBtn").addEventListener("click", () => respond("approve"));
-  document.getElementById("declineBtn").addEventListener("click", () => respond("decline"));
   load();
 </script>
 </body>
