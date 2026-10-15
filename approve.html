@@ -49,12 +49,6 @@
   .dim{ color:var(--ink-dim); font-size:0.875rem; }
   strong{ font-weight:600; color:var(--ink); }
 
-  .card{
-    background:var(--bg-card); border:1px solid var(--line); border-radius:0.875rem;
-    padding:1.25rem 1.25rem 0.25rem; margin:0 0 1.5rem;
-  }
-  .card p{ margin-bottom:1rem; }
-  .greet{ color:var(--ink-dim); font-size:0.9375rem; }
   .note{ color:var(--ink-dim); font-size:0.9375rem; margin-bottom:0.75rem; }
 
   .actions{ display:flex; flex-direction:column; gap:0.625rem; margin-top:1.5rem; }
@@ -102,12 +96,10 @@
 
     <div class="screen" id="pending">
       <h1>parent/guardian approval</h1>
-      <div class="card">
-        <p class="greet">hi <span id="guardianName"></span>,</p>
-        <p><strong class="sitterName"></strong> has listed you as their parent/guardian on opair and needs your approval to become a member</p>
-      </div>
+      <p>hi <span id="guardianName"></span>,</p>
+      <p><strong class="sitterName"></strong> has listed you as their parent/guardian on opair and needs your approval to become a member</p>
       <p class="note">not sure what opair is? <a class="inline" href="https://opair.app" target="_blank" rel="noopener">find out more here</a></p>
-      <p class="note">if you want to proceed, we will send a verification code to your phone number ending in <strong class="lastFour"></strong></p>
+      <p>if you want to proceed, we will send a verification code to your phone number ending in <strong class="lastFour"></strong></p>
       <div class="actions">
         <button class="approve" id="sendBtn">send code</button>
       </div>
@@ -137,9 +129,7 @@
 
     <div class="screen" id="review">
       <h1>approve your child</h1>
-      <div class="card">
-        <p>confirm below if you approve <strong class="sitterName"></strong> becoming a babysitter on opair and receiving job offers through the opair network</p>
-      </div>
+      <p>confirm below if you approve <strong class="sitterName"></strong> becoming a babysitter on opair and receiving job offers through the opair network</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
         <button class="ghost" id="declineBtn">decline</button>
@@ -155,11 +145,9 @@
 
     <div class="screen" id="declined">
       <h1>request declined</h1>
-      <div class="card">
-        <p><strong class="sitterName"></strong> will not receive any babysitting jobs on opair</p>
-        <p>they can still add people to their network until they get approved by you</p>
-      </div>
-      <p class="note">if you change your mind, ask <span class="sitterName"></span> to send you a new link from the app</p>
+      <p><strong class="sitterName"></strong> will not receive any babysitting jobs on opair</p>
+      <p>they can still add people to their network until they get approved by you</p>
+      <p>if you change your mind, ask <span class="sitterName"></span> to send you a new link from the app</p>
       <div class="actions">
         <a class="approve btnlink" href="https://opair.app">go to opair.app</a>
       </div>
