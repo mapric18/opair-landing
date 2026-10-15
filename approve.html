@@ -90,9 +90,9 @@
     <div class="screen" id="pending">
       <h1>parent/guardian approval</h1>
       <p>hi <span id="guardianName"></span>,</p>
-      <p><strong class="sitterName"></strong> has listed you as their parent/guardian on opair and needs your approval to become a member.</p>
+      <p><strong class="sitterName"></strong> has listed you as their parent/guardian on opair and needs your approval to become a member</p>
       <p class="dim">not sure what opair is? <a class="inline" href="https://opair.app" target="_blank" rel="noopener">find out more here</a></p>
-      <p>if you want to proceed, we will send a verification code to your phone number ending in <strong class="lastFour"></strong>.</p>
+      <p>if you want to proceed, we will send a verification code to your phone number ending in <strong class="lastFour"></strong></p>
       <div class="actions">
         <button class="approve" id="sendBtn">send code</button>
       </div>
@@ -102,7 +102,7 @@
 
     <div class="screen" id="confirmDecline">
       <h1>are you sure?</h1>
-      <p><strong class="sitterName"></strong> won't be able to become a member of opair without your approval.</p>
+      <p><strong class="sitterName"></strong> won't be able to become a member of opair without your approval</p>
       <div class="actions">
         <button class="decline" id="confirmDeclineBtn">yes, i do not approve</button>
         <button class="approve" id="backBtn">go back</button>
@@ -112,7 +112,7 @@
 
     <div class="screen" id="code">
       <h1>enter your code</h1>
-      <p>we sent a 6-digit code to your phone number ending in <strong class="lastFour"></strong>.</p>
+      <p>we sent a 6-digit code to your phone number ending in <strong class="lastFour"></strong></p>
       <div class="actions">
         <input id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
         <button class="approve" id="verifyBtn">verify code</button>
@@ -122,8 +122,8 @@
 
     <div class="screen" id="review">
       <h1>approve your child</h1>
-      <p><strong class="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian.</p>
-      <p>because they are under 18, they need your approval before they can receive babysitting jobs.</p>
+      <p><strong class="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian</p>
+      <p>because they are under 18, they need your approval before they can receive babysitting jobs</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
         <button class="decline" id="declineBtn">decline</button>
@@ -132,29 +132,29 @@
     </div>
 
     <div class="screen" id="approved">
-      <h1>thank you.</h1>
-      <p>you've approved your child's opair account. they can now receive babysitting jobs.</p>
-      <p class="dim">you can close this page.</p>
+      <h1>thank you</h1>
+      <p>you've approved your child's opair account<br>they can now receive babysitting jobs</p>
+      <p class="dim">you can close this page</p>
     </div>
 
     <div class="screen" id="declined">
-      <h1>request declined.</h1>
-      <p>your child's account won't receive babysitting jobs. if you change your mind, ask them to send you a new link from the app.</p>
+      <h1>request declined</h1>
+      <p>your child's account won't receive babysitting jobs<br>if you change your mind, ask them to send you a new link from the app</p>
     </div>
 
     <div class="screen" id="expired">
-      <h1>this link has expired.</h1>
-      <p>it may be too old or already used. ask your child to send you a new link from the opair app.</p>
+      <h1>this link has expired</h1>
+      <p>it may be too old or already used<br>ask your child to send you a new link from the opair app</p>
     </div>
 
     <div class="screen" id="invalid">
-      <h1>this link isn't valid.</h1>
-      <p>make sure you opened the full link from your child's message.</p>
+      <h1>this link isn't valid</h1>
+      <p>make sure you opened the full link from your child's message</p>
     </div>
 
     <div class="screen" id="error">
-      <h1>something went wrong.</h1>
-      <p>please refresh the page and try again.</p>
+      <h1>something went wrong</h1>
+      <p>please refresh the page and try again</p>
     </div>
   </div>
 </div>
@@ -219,15 +219,15 @@
       btn.disabled = false;
       recaptcha.render().then((id) => window.grecaptcha?.reset(id)).catch(() => {});
       setMsg("sendMsg", e.code === "auth/too-many-requests"
-        ? "too many attempts. please try again later."
-        : "couldn't send the code. please try again.");
+        ? "too many attempts, please try again later"
+        : "couldn't send the code, please try again");
     }
   }
 
   // Step 2: check the code. Keep the ID token for the approve/decline call.
   async function verifyCode(){
     const code = document.getElementById("codeInput").value.trim();
-    if (code.length < 6) return setMsg("codeMsg", "enter the 6-digit code.");
+    if (code.length < 6) return setMsg("codeMsg", "enter the 6-digit code");
     const btn = document.getElementById("verifyBtn");
     btn.disabled = true; setMsg("codeMsg", "");
     try {
@@ -237,7 +237,7 @@
       show("review");
     } catch (e) {
       btn.disabled = false;
-      setMsg("codeMsg", "that code didn't work. check it and try again.");
+      setMsg("codeMsg", "that code didn't work, check it and try again");
     }
   }
 
@@ -254,7 +254,7 @@
       const data = await res.json();
       if (data.status === "unverified") {
         buttons.forEach(b => b.disabled = false);
-        return setMsg("reviewMsg", "we couldn't verify your phone number. please reload and try again.");
+        return setMsg("reviewMsg", "we couldn't verify your phone number, please reload and try again");
       }
       show(document.getElementById(data.status) ? data.status : "error");
     } catch (e) {
@@ -275,7 +275,7 @@
       location.href = "https://opair.app";
     } catch (e) {
       btn.disabled = false;
-      setMsg("declineMsg", "something went wrong. please try again.");
+      setMsg("declineMsg", "something went wrong, please try again");
     }
   }
 
