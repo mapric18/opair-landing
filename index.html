@@ -273,6 +273,18 @@
     font-size:0.9375rem; cursor:pointer; text-transform:lowercase; transition:opacity .15s ease;
   }
   dialog .close-btn:hover{ opacity:0.88; }
+  /* balanced mobile layout */
+  .lede{ font-size:1rem; line-height:1.55; margin:0 auto 1.75rem; max-width:40ch; }
+  .audiences{ display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.75rem; }
+  .audience{ background:var(--bg-card); border:1px solid var(--line); border-radius:0.875rem; padding:1rem 0.75rem; margin:0; }
+  .audience h3{ margin-bottom:0.375rem; }
+  .audience p{ font-size:0.9062rem; line-height:1.55; color:var(--ink-dim); }
+  .closer{ font-family:'PT Serif', serif; font-size:1.0938rem; margin:0.5rem 0 0.75rem; }
+  .calc-link-block{ margin:0 0 2rem; }
+  .calc-link-inline{ font-size:1rem; }
+  .desc{ font-size:0.8125rem; line-height:1.45; margin:0 auto 0.5rem; max-width:36ch; }
+  .desc + .desc{ margin-bottom:1rem; }
+
   /* desktop: let the landing page spread out */
   @media (min-width: 900px){
     #landingCard{ max-width:68rem; }
@@ -299,7 +311,7 @@
       <a class="logo" href="index.html" aria-label="opair home"><svg viewBox="0 0 36 24" aria-hidden="true"><defs><clipPath id="logoClip1"><circle cx="12" cy="12" r="12"/></clipPath></defs><circle cx="12" cy="12" r="12" fill="#9dbb9f"/><circle cx="24" cy="12" r="12" fill="#a9c4e4"/><circle cx="24" cy="12" r="12" fill="#3d8b9b" clip-path="url(#logoClip1)"/></svg>opair</a>
       <div class="body-wrap">
         <h1 class="tagline">the babysitter network built on trust</h1>
-        <p class="lede">opair is an invite only app that connects families with babysitters they already trust, and babysitters with families who already trust them. every family and babysitter is recommended by someone you know and trust</p>
+        <p class="lede">opair is an invite only app that connects families with babysitters they already trust, and babysitters with families who already trust them. everyone on opair is recommended by someone you know and trust</p>
 
         <div class="audiences">
         <div class="audience">
@@ -316,7 +328,8 @@
         <p class="closer">it's word of mouth, at the speed of an app</p>
         <div class="calc-link-block"><a href="calculator.html" class="calc-link-inline">see how the opair network works &rarr;</a></div>
 
-        <p class="desc">we're growing one city at a time &mdash; through trusted connections, not strangers<br><br>want to join the opair network? request an invitation below</p>
+        <p class="desc">we're growing one city at a time &mdash; through trusted connections, not strangers</p>
+        <p class="desc">want to join the opair network? request an invitation below</p>
         <button type="button" id="showFormBtn">request an invitation</button>
       </div>
     </div>

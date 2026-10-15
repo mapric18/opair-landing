@@ -67,6 +67,7 @@
   button:disabled{ opacity:0.6; cursor:default; }
   .approve{ background:var(--teal); color:var(--teal-ink); }
   .decline{ background:var(--bg-card); color:var(--ink-dim); border:1px solid var(--line); }
+  .btnlink{ display:block; text-decoration:none; font-weight:500; font-size:0.9688rem; padding:0.75rem; border-radius:0.5rem; }
   .ghost{ background:transparent; color:var(--ink); border:1px solid var(--line); }
 
   input{
@@ -137,12 +138,11 @@
     <div class="screen" id="review">
       <h1>approve your child</h1>
       <div class="card">
-        <p><strong class="sitterName"></strong> has signed up to babysit on opair and listed you as their parent or guardian</p>
+        <p>confirm below if you approve <strong class="sitterName"></strong> becoming a babysitter on opair and receiving job offers through the opair network</p>
       </div>
-      <p class="note">because they are under 18, they need your approval before they can receive babysitting jobs</p>
       <div class="actions">
         <button class="approve" id="approveBtn">i approve</button>
-        <button class="decline" id="declineBtn">decline</button>
+        <button class="ghost" id="declineBtn">decline</button>
       </div>
       <p class="msg" id="reviewMsg"></p>
     </div>
@@ -155,7 +155,14 @@
 
     <div class="screen" id="declined">
       <h1>request declined</h1>
-      <p>your child's account won't receive babysitting jobs<br>if you change your mind, ask them to send you a new link from the app</p>
+      <div class="card">
+        <p><strong class="sitterName"></strong> will not receive any babysitting jobs on opair</p>
+        <p>they can still add people to their network until they get approved by you</p>
+      </div>
+      <p class="note">if you change your mind, ask <span class="sitterName"></span> to send you a new link from the app</p>
+      <div class="actions">
+        <a class="approve btnlink" href="https://opair.app">go to opair.app</a>
+      </div>
     </div>
 
     <div class="screen" id="expired">
@@ -278,7 +285,7 @@
     }
   }
 
-  // "i do not approve" from the first screen: confirm, record it, go home.
+  // "i do not approve" / "decline": confirm, record it, show the declined screen.
   async function declineAndLeave(){
     const btn = document.getElementById("confirmDeclineBtn");
     btn.disabled = true; setMsg("declineMsg", "");
@@ -288,20 +295,23 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, decision: "decline" }),
       });
-      location.href = "https://opair.app";
+      show("declined");
     } catch (e) {
       btn.disabled = false;
       setMsg("declineMsg", "something went wrong, please try again");
     }
   }
 
-  document.getElementById("notApproveBtn").addEventListener("click", () => show("confirmDecline"));
-  document.getElementById("backBtn").addEventListener("click", () => show("pending"));
+  let declineFrom = "pending";
+  function askDecline(from){ declineFrom = from; show("confirmDecline"); }
+
+  document.getElementById("notApproveBtn").addEventListener("click", () => askDecline("pending"));
+  document.getElementById("declineBtn").addEventListener("click", () => askDecline("review"));
+  document.getElementById("backBtn").addEventListener("click", () => show(declineFrom));
   document.getElementById("confirmDeclineBtn").addEventListener("click", declineAndLeave);
   document.getElementById("sendBtn").addEventListener("click", sendCode);
   document.getElementById("verifyBtn").addEventListener("click", verifyCode);
   document.getElementById("approveBtn").addEventListener("click", () => respond("approve"));
-  document.getElementById("declineBtn").addEventListener("click", () => respond("decline"));
   load();
 </script>
 </body>
